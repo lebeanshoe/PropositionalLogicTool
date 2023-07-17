@@ -9,4 +9,9 @@ public class Implies implements Operator {
             return true;
         }
     }
+
+    @Override
+    public String toString() {
+        return "->";
+    }
 }

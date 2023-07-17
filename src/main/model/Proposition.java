@@ -1,7 +1,9 @@
 package model;
 
-import operators.Operator;
+import operators.Biconditional;
+import operators.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -18,16 +20,17 @@ public abstract class Proposition {
     }
 
     public Operator getOperator() {
-        return null;
+        Operator dummy = new Not();
+        return dummy; // stub TODO
     }
 
     public List<Proposition> getSubProps() {
-        return null;
+        return new ArrayList<>(); //stub
     }
 
     public int getNumVar() {
         return 0; //stub
     }
 
-
+    public abstract String toString();
 }

@@ -2,6 +2,7 @@ package model;
 
 import operators.Operator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // represents a binary operation with an operator and two proposition parameters
@@ -23,6 +24,13 @@ public class BinaryOperation extends Proposition {
 
     @Override
     public List<Boolean> evaluate() {
-        return null;
+        return new ArrayList<>();
+    }
+
+    @Override
+    // EFFECTS: returns operations as string, with spaces between binary operators and variables,
+    //          and parentheses wrapping every proposition that's not a variable
+    public String toString() {
+        return "";
     }
 }

@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Variable extends Proposition {
@@ -15,6 +16,12 @@ public class Variable extends Proposition {
     //          on how many variables there are and whose order is dependent
     //          on which variable it is
     public List<Boolean> evaluate() {
-        return null;
+        return new ArrayList<>();
+    }
+
+    @Override
+    // EFFECTS: returns variable as a single letter
+    public String toString() {
+        return "";
     }
 }
