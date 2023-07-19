@@ -3,11 +3,12 @@ import model.Proposition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BinaryOperationTest {
+public class BinaryOperationTests {
     private Proposition simpleNot;
     private Proposition simpleBin1;
     private Proposition simpleBin2;
@@ -23,22 +24,23 @@ public class BinaryOperationTest {
 
     @BeforeEach
     void runBefore() {
-        simpleNot = new BinaryOperation("~a");
-        simpleBin1 = new BinaryOperation("bvc");
-        simpleBin2 = new BinaryOperation("d^e");
+        simpleNot = new BinaryOperation("~a", new ArrayList<>());
+        simpleBin1 = new BinaryOperation("bvc", new ArrayList<>());
+        simpleBin2 = new BinaryOperation("d^e", new ArrayList<>());
 
-        longOperator1 = new BinaryOperation("f<->g");
-        longOperator2 = new BinaryOperation("h xor i");
+        longOperator1 = new BinaryOperation("f<->g", new ArrayList<>());
+        longOperator2 = new BinaryOperation("h xor i", new ArrayList<>());
 
-        compoundOp1 = new BinaryOperation("(xv(~y))");
-        compoundOp2 = new BinaryOperation("(av(~b))^(avc)"); // DIST law
+        compoundOp1 = new BinaryOperation("xv(~y)", new ArrayList<>());
+        compoundOp2 = new BinaryOperation("(av(~b))^(avc)", new ArrayList<>()); // DIST law
 
-        twoDeep1 = new BinaryOperation("((a ^ b) v (c -> d)) xor ((c v a) -> (b <-> d))");
-        twoDeep2 = new BinaryOperation("((x -> z) xor (w ^ y)) ^ (((~x) v y) ^ (w xor z))");
+        twoDeep1 = new BinaryOperation("((a ^ b) v (c -> d)) xor ((c v a) -> (b <-> d))", new ArrayList<>());
+        twoDeep2 = new BinaryOperation("((x -> z) xor (w ^ y)) ^ (((~x) v y) ^ (w xor z))", new ArrayList<>());
     }
 
     @Test
     void testConstructor() {
+//        assertEquals(UnaryOperation.class, simpleNot.getClass());
         assertEquals("~", simpleNot.getOperator().toString());
         assertEquals("a", simpleNot.getSubProps().get(0).toString());
 
@@ -48,7 +50,7 @@ public class BinaryOperationTest {
 
         assertEquals("^", simpleBin2.getOperator().toString());
         assertEquals("d", simpleBin2.getSubProps().get(0).toString());
-        assertEquals("e", simpleBin1.getSubProps().get(1).toString());
+        assertEquals("e", simpleBin2.getSubProps().get(1).toString());
     }
 
     @Test
@@ -79,7 +81,7 @@ public class BinaryOperationTest {
         Proposition lChild = compoundOp2.getSubProps().get(0);
         assertEquals("v", lChild.getOperator().toString());
         assertEquals("a", lChild.getSubProps().get(0).toString());
-        Proposition lChildSub = compoundOp1.getSubProps().get(1);
+        Proposition lChildSub = lChild.getSubProps().get(1);
         assertEquals("~", lChildSub.getOperator().toString());
         assertEquals("b", lChildSub.getSubProps().get(0).toString());
 
@@ -90,7 +92,7 @@ public class BinaryOperationTest {
     }
 
     @Test
-    void testDeeperConstruction1() {
+    void testDeeperConstructor1() {
         assertEquals("xor", twoDeep1.getOperator().toString());
 
         Proposition lChild = twoDeep1.getSubProps().get(0);
@@ -117,7 +119,7 @@ public class BinaryOperationTest {
     }
 
     @Test
-    void testDeeperConstruction2() {
+    void testDeeperConstructor2() {
         assertEquals("^", twoDeep2.getOperator().toString());
 
         Proposition lChild = twoDeep2.getSubProps().get(0);
@@ -195,8 +197,8 @@ public class BinaryOperationTest {
         assertEquals("f <-> g", longOperator1.toString());
         assertEquals("h xor i", longOperator2.toString());
 
-        assertEquals("x v (~y)", compoundOp2.toString());
-        assertEquals("~y", compoundOp2.getSubProps().get(1).toString());
+        assertEquals("x v (~y)", compoundOp1.toString());
+        assertEquals("~y", compoundOp1.getSubProps().get(1).toString());
 
         assertEquals("(a v (~b)) ^ (a v c)", compoundOp2.toString());
         assertEquals("a v (~b)", compoundOp2.getSubProps().get(0).toString());

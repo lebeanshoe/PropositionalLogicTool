@@ -20,15 +20,15 @@ all-in-one tool for anyone working with zero-th order propositional logic.
 
 - As a user, I can input a propositional logic statement and receive its
 equivalent truth table
-- As a user, I can freely edit the outcomes of a truth table and receive 
-its equivalent propositional logic statement
+- _As a user, I can freely edit the outcomes of a truth table and receive 
+its equivalent propositional logic statement_ **WIP**
 - As a user, I can enter two distinct propositional logic statements and 
 see if they are equivalent
-- As a user, I can input a logical argument and receive either the order
-of operations showing it to be valid, or an invalidating truth assignment
-- As a user, I can see my input's syntax being highlighted
+- _As a user, I can input a logical argument and receive either the order
+of operations showing it to be valid, or an invalidating truth assignment_ **WIP**
+- _As a user, I can see my input's syntax being highlighted_ **WIP**
 - As a user, I can see a history of prior queries, and restore and edit
 selected ones
 - As a user, I can add selected queries to a canvas of queries
-- As a user, I can freely move and queries on the canvas
-- As a user, I can save the current canvas for use after app restart
+- _As a user, I can freely move and queries on the canvas_ **WIP**
+- _As a user, I can save the current canvas for use after app restart_ **WIP**

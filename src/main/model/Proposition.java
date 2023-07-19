@@ -1,36 +1,20 @@
 package model;
 
-import operators.Biconditional;
 import operators.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /*
 
  */
-public abstract class Proposition {
-    private int numVar;
-    private List<Variable> vars;
+public interface Proposition {
+    List<Boolean> evaluate();
 
-    public abstract List<Boolean> evaluate();
+    Operator getOperator();
 
-    public void incrementNumVar() {
-        // stub
-    }
+    List<Proposition> getSubProps();
 
-    public Operator getOperator() {
-        Operator dummy = new Not();
-        return dummy; // stub TODO
-    }
+    int getNumVar();
 
-    public List<Proposition> getSubProps() {
-        return new ArrayList<>(); //stub
-    }
-
-    public int getNumVar() {
-        return 0; //stub
-    }
-
-    public abstract String toString();
+    String toString();
 }
