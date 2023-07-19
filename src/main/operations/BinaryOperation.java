@@ -1,4 +1,4 @@
-package model;
+package operations;
 
 import operators.*;
 
@@ -7,18 +7,20 @@ import java.util.List;
 
 import static model.StatementSplitter.balancedGroups;
 
-// represents a binary operation with an operator and two proposition parameters
+// represents a binary operation with an operator, up to two sub propositions, a list of variables used,
+// and the order of operations of this operation
 public class BinaryOperation implements Proposition {
     private Operator operator;
     private List<Proposition> subProps = new ArrayList<>();
     private List<Variable> vars;
     private List<Proposition> operations;
 
-    /*
-    REQUIRES: No outermost wrapping parentheses
-    main converter from string -> prop logic statement
-    - calls BinaryOperation and UnaryOperation constructors
-     */
+    // REQUIRES: There must be no parentheses that encapsulate the entire statement.
+    //           Must be a valid statement.
+    // EFFECTS: constructs a binary operation out of the string:
+    //          - each variable is only counted once
+    //          - stores the order of operations in this.operations, up to but not including the root
+    //            proposition
     public BinaryOperation(String statement, List<Variable> vars, List<Proposition> operations) {
         this.vars = vars;
         this.operations = operations;
@@ -45,27 +47,6 @@ public class BinaryOperation implements Proposition {
         }
     }
 
-//    // EFFECTS: constructs a binary operation with given operation that operates on the firstParam
-//    //          proposition and secondParam proposition in order
-//    public BinaryOperation(Proposition firstParam, String operator, Proposition secondParam) {
-//        this.subProps.add(firstParam);
-//        this.subProps.add(secondParam);
-//
-//        if (operator.equals("^")) {
-//            this.operator = and;
-//        } else if (operator.equals("<->") | operator.equals("<=>")) {
-//            this.operator = bic;
-//        } else if (operator.equals("->") | operator.equals("=>")) {
-//            this.operator = imp;
-//        } else if (operator.equals("~")) {
-//            this.operator = not;
-//        } else if (operator.equals("v")) {
-//            this.operator = or;
-//        } else {
-//            this.operator = xor;
-//        }
-//    }
-
     // REQUIRES: operator is valid syntax for an operator object
     // EFFECTS: returns operator matching string
     public Operator chooseOperator(String operator) {
@@ -82,6 +63,7 @@ public class BinaryOperation implements Proposition {
         }
     }
 
+    // EFFECTS: returns a list of booleans representing an operation's truth assignment
     @Override
     public List<Boolean> evaluate() {
         List<Boolean> assignment = new ArrayList<>();
@@ -125,26 +107,11 @@ public class BinaryOperation implements Proposition {
         }
     }
 
-    @Override
-    public List<Variable> getVars() {
-        return this.vars;
-    }
-
-    //    @Override
-    public List<Proposition> getSubProps() {
-        return this.subProps;
-    }
-
-//    @Override
-    public int getNumVar() {
-        return this.vars.size();
-    }
-
-//    @Override
-    public Operator getOperator() {
-        return this.operator;
-    }
-
+    // MODIFIES: this, vars, operations
+    // EFFECTS: takes input statement and determines whether to construct a Variable or BinaryOperation
+    //          out of it. If it constructs a Variable, adds it to subProps, and adds it to vars if not
+    //          already in it, otherwise do nothing. If it constructs a BinaryOperation, adds it to
+    //          subVars.
     public void subPropSetter(String statement, List<Variable> vars, List<Proposition> operations) {
         if (statement.length() == 1) {
             List<String> varsAsString = new ArrayList<>();
@@ -168,6 +135,26 @@ public class BinaryOperation implements Proposition {
             this.subProps.add(localBinOp);
             this.operations.add(localBinOp);
         }
+    }
+
+    @Override
+    public List<Variable> getVars() {
+        return this.vars;
+    }
+
+    //    @Override
+    public List<Proposition> getSubProps() {
+        return this.subProps;
+    }
+
+    //    @Override
+    public int getNumVar() {
+        return this.vars.size();
+    }
+
+    //    @Override
+    public Operator getOperator() {
+        return this.operator;
     }
 
     public List<Proposition> getOOP() {

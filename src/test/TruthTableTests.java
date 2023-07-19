@@ -1,7 +1,6 @@
-import model.BinaryOperation;
-import model.Proposition;
-import model.TruthTable;
-import model.Variable;
+import operations.BinaryOperation;
+import operations.Proposition;
+import operations.TruthTable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,39 +10,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TruthTableTests {
-    private Proposition singleVar;
     private Proposition oneNot;
     private Proposition oneBin;
     private Proposition compoundWithNot;
 
-    private TruthTable singleVarTT;
     private TruthTable oneNotTT;
     private TruthTable oneBinTT;
     private TruthTable compoundWithNotTT;
 
     @BeforeEach
     void runBefore() {
-//        singleVar = new BinaryOperation("a", new ArrayList<>(), new ArrayList<>());
         oneNot = new BinaryOperation("~a", new ArrayList<>(), new ArrayList<>());
         oneBin = new BinaryOperation("a^b", new ArrayList<>(), new ArrayList<>());
         compoundWithNot = new BinaryOperation("(a->c)xor(~b)", new ArrayList<>(), new ArrayList<>());
 
-//        singleVarTT = new TruthTable(singleVar);
         oneNotTT = new TruthTable(oneNot);
         oneBinTT = new TruthTable(oneBin);
         compoundWithNotTT = new TruthTable(compoundWithNot);
     }
-
-//    @Test
-//    void testSingleVar() {
-//        List<Proposition> colHeads = singleVarTT.getColumnHeaders();
-//        List<List<Boolean>> assigns = singleVarTT.getAssignments();
-//        assertEquals(2, colHeads.size());
-//        assertEquals(2, assigns.size());
-//        assertEquals("a", colHeads.get(0).toString());
-//        assertEquals("a", colHeads.get(1).toString());
-//        assertEquals(2, assigns.get(0).size());
-//    }
 
     @Test
     void testOneNot() {

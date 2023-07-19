@@ -1,4 +1,4 @@
-package model;
+package operations;
 
 import operators.Operator;
 
@@ -17,19 +17,17 @@ public class Variable implements Proposition {
         this.varNum = varNum;
     }
 
+    // REQUIRES: numVars >= 1
+    // MODIFIES: this
+    // EFFECTS: changes the total number of variables to numVars
     public void setNumVars(int numVars) {
         this.numVars = numVars;
     }
 
-    @Override
     // EFFECTS: returns a list of truth assignments whose length is dependent
     //          on how many variables there are and whose order is dependent
     //          on which variable it is
-    /*
-    varNum = 0, alternate F/T at n/2 intervals
-    varNum = 1, alternate F/T at n/4 intervals
-    alternate F/T at n / (2 ^ (varNum + 1)) intervals
-     */
+    @Override
     public List<Boolean> evaluate() {
         List<Boolean> assignment = new ArrayList<>();
         int n = (int)Math.pow(2, this.numVars);
@@ -55,26 +53,36 @@ public class Variable implements Proposition {
     }
 
     @Override
+    // EFFECTS: returns null as this is a required method for BinaryOperation that must exist
+    //          in Proposition, but for which Variable has no use
     public List<Variable> getVars() {
         return null;
     }
 
     @Override
+    // EFFECTS: returns null as this is a required method for BinaryOperation that must exist
+    //          in Proposition, but for which Variable has no use
     public List<Proposition> getOOP() {
         return null;
     }
 
     @Override
+    // EFFECTS: returns null as this is a required method for BinaryOperation that must exist
+    //          in Proposition, but for which Variable has no use
     public Operator getOperator() {
         return null;
     }
 
     @Override
+    // EFFECTS: returns null as this is a required method for BinaryOperation that must exist
+    //          in Proposition, but for which Variable has no use
     public List<Proposition> getSubProps() {
         return null;
     }
 
     @Override
+    // EFFECTS: returns 0 as this is a required method for BinaryOperation that must exist
+    //          in Proposition, but for which Variable has no use
     public int getNumVar() {
         return 0;
     }

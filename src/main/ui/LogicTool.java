@@ -1,6 +1,9 @@
 package ui;
 
 import model.*;
+import operations.BinaryOperation;
+import operations.Proposition;
+import operations.TruthTable;
 
 import java.util.ArrayList;
 import java.util.List;

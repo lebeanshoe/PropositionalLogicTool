@@ -1,5 +1,5 @@
-import model.BinaryOperation;
-import model.Proposition;
+import operations.BinaryOperation;
+import operations.Proposition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

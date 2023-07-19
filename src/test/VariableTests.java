@@ -1,4 +1,4 @@
-import model.Variable;
+import operations.Variable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
