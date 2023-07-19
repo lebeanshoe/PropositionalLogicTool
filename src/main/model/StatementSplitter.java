@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-// from https://www.geeksforgeeks.org/split-parenthesis-sequence-into-maximum-valid-substrings/
+// Taken from https://www.geeksforgeeks.org/split-parenthesis-sequence-into-maximum-valid-substrings/
 public class StatementSplitter {
     public static List<String> balancedGroups(String s) {
         List<String> res = new ArrayList<>();

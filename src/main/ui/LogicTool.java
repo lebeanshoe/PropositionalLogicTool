@@ -13,6 +13,7 @@ import static model.StatementSplitter.balancedGroups;
 
 // from TellerApp
 public class LogicTool {
+    private Canvas canvas;
     private List<Query> history = new ArrayList<>();
     private Scanner input;
 
@@ -53,6 +54,8 @@ public class LogicTool {
             doComparison();
         } else if (command.equals("h")) {
             viewHistory();
+        } else if (command.equals("v")) {
+            editCanvas();
         } else {
             System.out.println("Selection not valid...");
         }
@@ -61,6 +64,7 @@ public class LogicTool {
     // MODIFIES: this
     // EFFECTS: initializes scanner
     private void init() {
+        this.canvas = new Canvas();
         input = new Scanner(System.in);
         input.useDelimiter("\n");
     }
@@ -71,6 +75,7 @@ public class LogicTool {
         System.out.println("\tt -> truth table converter");
         System.out.println("\tc -> propositional logic statement comparator");
         System.out.println("\th -> history");
+        System.out.println("\tv -> edit canvas");
         System.out.println("\tq -> quit");
     }
 
@@ -118,34 +123,86 @@ public class LogicTool {
         equivalency(operation1, operation2, table1, table2);
     }
 
-    // MODIFIES: this
-    // EFFECTS: conducts a transfer transaction
+    // EFFECTS: prints out history of queries if it exists, then prints out the outputs of selected query
     private void viewHistory() {
         if (this.history.isEmpty()) {
             System.out.println("No history to show!");
         } else {
-            for (Query query : this.history) {
-                int index = this.history.indexOf(query);
-                System.out.print(index + ". ");
-                query.preview();
-            }
+            showHistory();
+        }
 
-            System.out.println("\nExpand query no.? ");
-            int targetNo = input.nextInt();
-            if ((targetNo >= 0) && (targetNo <= this.history.size() - 1)) {
-                Query target = this.history.get(targetNo);
-                if (target.getClass() == PropToTable.class) {
-                    printTable(target.getOutputs().get(0));
-                } else {
-                    equivalency(target.getInputs().get(0), target.getInputs().get(1),
-                            target.getOutputs().get(0), target.getOutputs().get(1));
-                }
+        System.out.println("\nExpand query no.? ");
+        int targetNo = input.nextInt();
+        if ((targetNo >= 0) && (targetNo <= this.history.size() - 1)) {
+            Query target = this.history.get(targetNo);
+            if (target.getClass() == PropToTable.class) {
+                printTable(target.getOutputs().get(0));
             } else {
-                System.out.println("Invalid index number!");
+                equivalency(target.getInputs().get(0), target.getInputs().get(1),
+                        target.getOutputs().get(0), target.getOutputs().get(1));
             }
+        } else {
+            System.out.println("Invalid index number!");
         }
     }
 
+    // EFFECTS: prints out the history of queries
+    private void showHistory() {
+        for (Query query : this.history) {
+            int index = this.history.indexOf(query);
+            System.out.print(index + ". ");
+            query.preview();
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: shows history, then prompts user to add or remove query from canvas
+    private void editCanvas() {
+        if (this.history.isEmpty()) {
+            System.out.println("No history to show!");
+        } else {
+            showHistory();
+        }
+        System.out.println("\nSelect from:");
+        System.out.println("\ta -> add to canvas");
+        System.out.println("\tr -> remove from canvas");
+        if (input.next().equals("a")) {
+            System.out.print(this.canvas.getQueries().toString());
+            doAddToCanvas();
+        } else if (input.next().equals("r")) {
+            doRemoveFromCanvas();
+        } else {
+            System.out.println("Selection not valid...");
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: adds selected query index no. to canvas
+    public void doAddToCanvas() {
+        System.out.println("\nSelect query no. to add: ");
+        int targetNo = input.nextInt();
+        if ((targetNo >= 0) && (targetNo <= this.history.size() - 1)) {
+            Query target = this.history.get(targetNo);
+            canvas.addQuery(target, 0, 0);
+        } else {
+            System.out.println("Invalid index number!");
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: removes selected query index no. from canvas
+    public void doRemoveFromCanvas() {
+        System.out.println("\nSelect query no. to remove: ");
+        int targetNo = input.nextInt();
+        if ((targetNo >= 0) && (targetNo <= this.history.size() - 1)) {
+            Query target = this.history.get(targetNo);
+            canvas.removeQuery(target);
+        } else {
+            System.out.println("Invalid index number!");
+        }
+    }
+
+    // EFFECTS: prints out given truth table with columns headers as variables and operations.
     private void printTable(TruthTable tab) {
         List<Proposition> colHeads = tab.getColumnHeaders();
         List<List<Boolean>> assigns = tab.getAssignments();
@@ -170,6 +227,7 @@ public class LogicTool {
         }
     }
 
+    // EFFECTS: returns false if given str is not a valid Proposition, otherwise true
     private boolean isValidStatement(String str) {
         if (str.length() == 0) {
             return false;
@@ -192,11 +250,13 @@ public class LogicTool {
         }
     }
 
+    // EFFECTS: returns false if given str is not a valid Operator, otherwise true
     private boolean isValidOperator(String operator) {
         return operator.equals("^") | operator.equals("<->") | operator.equals("<=>") | operator.equals("->")
                 | operator.equals("=>") | operator.equals("~") | operator.equals("v") | operator.equals("xor");
     }
 
+    // EFFECTS: converts false -> 0 and true -> 1
     private int boolToInt(boolean bool) {
         if (bool) {
             return 1;
@@ -204,6 +264,8 @@ public class LogicTool {
         return 0;
     }
 
+    // MODIFIES: this
+    // EFFECTS: determines the equivalency of 2 propositions, displays both truth tables, and adds query to history
     private void equivalency(Proposition operation1, Proposition operation2, TruthTable table1, TruthTable table2) {
         printTable(table1);
         printTable(table2);

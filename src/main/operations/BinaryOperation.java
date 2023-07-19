@@ -96,13 +96,13 @@ public class BinaryOperation implements Proposition {
             Proposition lhs = this.subProps.get(0);
             Proposition rhs = this.subProps.get(1);
             if (lhs.getClass() == Variable.class && rhs.getClass() == Variable.class) {
-                return lhs.toString() + " " + this.operator.toString() + " " + rhs.toString();
+                return lhs + " " + this.operator.toString() + " " + rhs;
             } else if (lhs.getClass() != Variable.class && rhs.getClass() == Variable.class) {
-                return "(" + lhs.toString() + ")" + " " + this.operator.toString() + " " + rhs.toString();
-            } else if (lhs.getClass() == Variable.class && rhs.getClass() != Variable.class) {
-                return lhs.toString() + " " + this.operator.toString() + " " + "(" + rhs.toString() + ")";
+                return "(" + lhs + ")" + " " + this.operator.toString() + " " + rhs;
+            } else if (lhs.getClass() == Variable.class) {
+                return lhs + " " + this.operator.toString() + " " + "(" + rhs + ")";
             } else {
-                return "(" + lhs.toString() + ")" + " " + this.operator.toString() + " " + "(" + rhs.toString() + ")";
+                return "(" + lhs + ")" + " " + this.operator.toString() + " " + "(" + rhs + ")";
             }
         }
     }
