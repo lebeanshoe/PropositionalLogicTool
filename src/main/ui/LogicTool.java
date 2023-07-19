@@ -129,20 +129,20 @@ public class LogicTool {
             System.out.println("No history to show!");
         } else {
             showHistory();
-        }
 
-        System.out.println("\nExpand query no.? ");
-        int targetNo = input.nextInt();
-        if ((targetNo >= 0) && (targetNo <= this.history.size() - 1)) {
-            Query target = this.history.get(targetNo);
-            if (target.getClass() == PropToTable.class) {
-                printTable(target.getOutputs().get(0));
+            System.out.println("\nExpand query no.? ");
+            int targetNo = input.nextInt();
+            if ((targetNo >= 0) && (targetNo <= this.history.size() - 1)) {
+                Query target = this.history.get(targetNo);
+                if (target.getClass() == PropToTable.class) {
+                    printTable(target.getOutputs().get(0));
+                } else {
+                    equivalency(target.getInputs().get(0), target.getInputs().get(1),
+                            target.getOutputs().get(0), target.getOutputs().get(1));
+                }
             } else {
-                equivalency(target.getInputs().get(0), target.getInputs().get(1),
-                        target.getOutputs().get(0), target.getOutputs().get(1));
+                System.out.println("Invalid index number!");
             }
-        } else {
-            System.out.println("Invalid index number!");
         }
     }
 
