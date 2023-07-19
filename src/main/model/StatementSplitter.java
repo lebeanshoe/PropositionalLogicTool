@@ -19,11 +19,6 @@ public class StatementSplitter {
 
         int n = s.length();
 
-        // If the size of the string is zero.
-        if (n == 0) {
-            return res;
-        }
-
         // Loop to find the valid substrings
         for (int i = 0; i < n; i++) {
             currStr.append(s.charAt(i));

@@ -1,8 +1,6 @@
 package ui;
 
-import model.BinaryOperation;
-import model.Proposition;
-import model.TruthTable;
+import model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +10,10 @@ import static model.StatementSplitter.balancedGroups;
 
 // from TellerApp
 public class LogicTool {
+    private List<Query> history = new ArrayList<>();
     private Scanner input;
 
-    // EFFECTS: runs the teller application
+    // EFFECTS: runs the logic tool application
     public LogicTool() {
         runLogicTool();
     }
@@ -49,15 +48,15 @@ public class LogicTool {
             doConversion();
         } else if (command.equals("c")) {
             doComparison();
-//        } else if (command.equals("h")) {
-//            viewHistory();
+        } else if (command.equals("h")) {
+            viewHistory();
         } else {
             System.out.println("Selection not valid...");
         }
     }
 
     // MODIFIES: this
-    // EFFECTS: initializes accounts
+    // EFFECTS: initializes scanner
     private void init() {
         input = new Scanner(System.in);
         input.useDelimiter("\n");
@@ -73,7 +72,7 @@ public class LogicTool {
     }
 
     // MODIFIES: this
-    // EFFECTS: conducts a deposit transaction
+    // EFFECTS: conducts a conversion from propositional logic statement to truth table and prints result
     private void doConversion() {
         System.out.print("Enter propositional logic statement: ");
         String in = input.next();
@@ -81,18 +80,22 @@ public class LogicTool {
             BinaryOperation operation = new BinaryOperation(in, new ArrayList<>(), new ArrayList<>());
             TruthTable table = new TruthTable(operation);
             printTable(table);
+            this.history.add(new PropToTable(operation, table));
+        } else {
+            System.out.println("Please enter a valid propositional logic statement");
         }
-        System.out.println("Please enter a valid propositional logic statement");
     }
 
     // MODIFIES: this
-    // EFFECTS: conducts a withdraw transaction
+    // EFFECTS: conducts a comparison between two propositional logic statements
     private void doComparison() {
         System.out.print("Enter first propositional logic statement: ");
         String first = input.next();
         TruthTable table1;
+        BinaryOperation operation1;
         if (isValidStatement(first)) {
-            table1 = new TruthTable(new BinaryOperation(first, new ArrayList<>(), new ArrayList<>()));
+            operation1 = new BinaryOperation(first, new ArrayList<>(), new ArrayList<>());
+            table1 = new TruthTable(operation1);
         } else {
             System.out.println("Please enter a valid propositional logic statement");
             return;
@@ -100,41 +103,45 @@ public class LogicTool {
         System.out.print("Enter second propositional logic statement: ");
         String second = input.next();
         TruthTable table2;
+        BinaryOperation operation2;
         if (isValidStatement(second)) {
-            table2 = new TruthTable(new BinaryOperation(second, new ArrayList<>(), new ArrayList<>()));
+            operation2 = new BinaryOperation(second, new ArrayList<>(), new ArrayList<>());
+            table2 = new TruthTable(operation2);
         } else {
             System.out.println("Please enter a valid propositional logic statement");
             return;
         }
 
-        equivalency(table1, table2);
+        equivalency(operation1, operation2, table1, table2);
     }
 
-//    // MODIFIES: this
-//    // EFFECTS: conducts a transfer transaction
-//    private void viewHistory() {
-//        System.out.println("\nTransfer from?");
-//        Account source = selectAccount();
-//        System.out.println("Transfer to?");
-//        Account destination = selectAccount();
-//
-//        System.out.print("Enter amount to transfer: $");
-//        double amount = input.nextDouble();
-//
-//        if (amount < 0.0) {
-//            System.out.println("Cannot transfer negative amount...\n");
-//        } else if (source.getBalance() < amount) {
-//            System.out.println("Insufficient balance on source account...\n");
-//        } else {
-//            source.withdraw(amount);
-//            destination.deposit(amount);
-//        }
-//
-//        System.out.print("Source ");
-//        printBalance(source);
-//        System.out.print("Destination ");
-//        printBalance(destination);
-//    }
+    // MODIFIES: this
+    // EFFECTS: conducts a transfer transaction
+    private void viewHistory() {
+        if (this.history.isEmpty()) {
+            System.out.println("No history to show!");
+        } else {
+            for (Query query : this.history) {
+                int index = this.history.indexOf(query);
+                System.out.print(index + ". ");
+                query.preview();
+            }
+
+            System.out.println("\nExpand query no.? ");
+            int targetNo = input.nextInt();
+            if ((targetNo >= 0) && (targetNo <= this.history.size() - 1)) {
+                Query target = this.history.get(targetNo);
+                if (target.getClass() == PropToTable.class) {
+                    printTable(target.getOutputs().get(0));
+                } else {
+                    equivalency(target.getInputs().get(0), target.getInputs().get(1),
+                            target.getOutputs().get(0), target.getOutputs().get(1));
+                }
+            } else {
+                System.out.println("Invalid index number!");
+            }
+        }
+    }
 
     private void printTable(TruthTable tab) {
         List<Proposition> colHeads = tab.getColumnHeaders();
@@ -161,20 +168,24 @@ public class LogicTool {
     }
 
     private boolean isValidStatement(String str) {
-        List<String> initialSplit = balancedGroups(str);
-        int size = initialSplit.size();
-        if (size == 1) {
+        if (str.length() == 0) {
             return false;
         } else {
-            StringBuilder operator = new StringBuilder();
+            List<String> initialSplit = balancedGroups(str);
+            int size = initialSplit.size();
+            if (size == 1) {
+                return false;
+            } else {
+                StringBuilder operator = new StringBuilder();
 
-            // Builds operator string
-            for (int i = 1; i < size - 1; i++) {
-                if (!initialSplit.get(i).equals(" ")) {
-                    operator.append(initialSplit.get(i));
+                // Builds operator string
+                for (int i = 1; i < size - 1; i++) {
+                    if (!initialSplit.get(i).equals(" ")) {
+                        operator.append(initialSplit.get(i));
+                    }
                 }
+                return isValidOperator(operator.toString());
             }
-            return isValidOperator(operator.toString());
         }
     }
 
@@ -190,7 +201,7 @@ public class LogicTool {
         return 0;
     }
 
-    private void equivalency(TruthTable table1, TruthTable table2) {
+    private void equivalency(Proposition operation1, Proposition operation2, TruthTable table1, TruthTable table2) {
         printTable(table1);
         printTable(table2);
         int noCols1 = table1.getAssignments().size();
@@ -202,5 +213,7 @@ public class LogicTool {
         } else {
             System.out.println("The statements are not equivalent.");
         }
+
+        this.history.add(new Comparison(operation1, operation2, table1, table2));
     }
 }

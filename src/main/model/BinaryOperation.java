@@ -154,7 +154,7 @@ public class BinaryOperation implements Proposition {
             if (!varsAsString.contains(statement)) {
                 Variable localVar = new Variable(statement, getNumVar());
                 this.subProps.add(localVar);
-                addAlphabetically(this.vars, localVar);
+                this.vars.add(localVar);
                 for (Variable var : this.vars) {
                     var.setNumVars(getNumVar());
                 }
@@ -172,22 +172,5 @@ public class BinaryOperation implements Proposition {
 
     public List<Proposition> getOOP() {
         return this.operations;
-    }
-
-    private void addAlphabetically(List<Variable> vars, Variable localVar) {
-        if (vars.isEmpty()) {
-            vars.add(localVar);
-        } else {
-            int pos = 0;
-            for (int i = 0; i < vars.size(); i++) {
-                int res = localVar.toString().compareTo(vars.get(i).toString());
-                if (res > 0) {
-                    pos++;
-                } else {
-                    vars.add(pos, localVar);
-                    break;
-                }
-            }
-        }
     }
 }
