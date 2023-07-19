@@ -24,18 +24,18 @@ public class BinaryOperationTests {
 
     @BeforeEach
     void runBefore() {
-        simpleNot = new BinaryOperation("~a", new ArrayList<>());
-        simpleBin1 = new BinaryOperation("bvc", new ArrayList<>());
-        simpleBin2 = new BinaryOperation("d^e", new ArrayList<>());
+        simpleNot = new BinaryOperation("~a", new ArrayList<>(), new ArrayList<>());
+        simpleBin1 = new BinaryOperation("bvc", new ArrayList<>(), new ArrayList<>());
+        simpleBin2 = new BinaryOperation("d^e", new ArrayList<>(), new ArrayList<>());
 
-        longOperator1 = new BinaryOperation("f<->g", new ArrayList<>());
-        longOperator2 = new BinaryOperation("h xor i", new ArrayList<>());
+        longOperator1 = new BinaryOperation("f<->g", new ArrayList<>(), new ArrayList<>());
+        longOperator2 = new BinaryOperation("h xor i", new ArrayList<>(), new ArrayList<>());
 
-        compoundOp1 = new BinaryOperation("xv(~y)", new ArrayList<>());
-        compoundOp2 = new BinaryOperation("(av(~b))^(avc)", new ArrayList<>()); // DIST law
+        compoundOp1 = new BinaryOperation("xv(~y)", new ArrayList<>(), new ArrayList<>());
+        compoundOp2 = new BinaryOperation("(av(~b))^(avc)", new ArrayList<>(), new ArrayList<>()); // DIST law
 
-        twoDeep1 = new BinaryOperation("((a ^ b) v (c -> d)) xor ((c v a) -> (b <-> d))", new ArrayList<>());
-        twoDeep2 = new BinaryOperation("((x -> z) xor (w ^ y)) ^ (((~x) v y) ^ (w xor z))", new ArrayList<>());
+        twoDeep1 = new BinaryOperation("((a ^ b) v (c -> d)) xor ((c v a) -> (b <-> d))", new ArrayList<>(), new ArrayList<>());
+        twoDeep2 = new BinaryOperation("((x -> z) xor (w ^ y)) ^ (((~x) v y) ^ (w xor z))", new ArrayList<>(), new ArrayList<>());
     }
 
     @Test
@@ -205,4 +205,9 @@ public class BinaryOperationTests {
 
         assertEquals("(~x) v y", twoDeep2.getSubProps().get(1).getSubProps().get(0).toString());
     }
+
+//    @Test
+//    void testGetOOP() {
+//
+//    }
 }

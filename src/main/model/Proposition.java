@@ -17,4 +17,8 @@ public interface Proposition {
     int getNumVar();
 
     String toString();
+
+    List<Variable> getVars();
+
+    List<Proposition> getOOP();
 }

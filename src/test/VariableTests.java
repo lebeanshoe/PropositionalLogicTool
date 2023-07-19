@@ -10,14 +10,12 @@ public class VariableTests {
     private Variable a;
     private Variable b;
     private Variable c;
-    private Variable d;
 
     @BeforeEach
     void runBefore() {
         a = new Variable("a", 0);
         b = new Variable("b", 1);
         c = new Variable("c", 2);
-        d = new Variable("d", 3);
     }
 
     @Test

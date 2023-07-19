@@ -45,4 +45,14 @@ public class UnaryOperation implements Proposition {
     public String toString() {
         return "";
     }
+
+    @Override
+    public List<Variable> getVars() {
+        return null;
+    }
+
+    @Override
+    public List<Proposition> getOOP() {
+        return null;
+    }
 }

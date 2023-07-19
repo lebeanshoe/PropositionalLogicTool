@@ -4,6 +4,7 @@ import operators.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static model.StatementSplitter.balancedGroups;
 
@@ -11,21 +12,23 @@ import static model.StatementSplitter.balancedGroups;
 public class BinaryOperation implements Proposition {
     private Operator operator;
     private List<Proposition> subProps = new ArrayList<>();
-    private List<Variable> vars = new ArrayList<>();
+    private List<Variable> vars;
+    private List<Proposition> operations;
 
     /*
     REQUIRES: No outermost wrapping parentheses
     main converter from string -> prop logic statement
     - calls BinaryOperation and UnaryOperation constructors
      */
-    public BinaryOperation(String statement, List<Variable> vars) {
+    public BinaryOperation(String statement, List<Variable> vars, List<Proposition> operations) {
         this.vars = vars;
+        this.operations = operations;
         List<String> initialSplit = balancedGroups(statement);
         int elements = initialSplit.size();
         if (elements == 2) {
             this.operator = new Not();
             String subProp = initialSplit.get(1);
-            subPropSetter(subProp, vars);
+            subPropSetter(subProp, vars, operations);
         } else {
             StringBuilder operator = new StringBuilder();
             String subProp1 = initialSplit.get(0);
@@ -38,8 +41,8 @@ public class BinaryOperation implements Proposition {
                 }
             }
             this.operator = chooseOperator(operator.toString());
-            subPropSetter(subProp1, vars);
-            subPropSetter(subProp2, vars);
+            subPropSetter(subProp1, vars, operations);
+            subPropSetter(subProp2, vars, operations);
         }
     }
 
@@ -123,7 +126,12 @@ public class BinaryOperation implements Proposition {
         }
     }
 
-//    @Override
+    @Override
+    public List<Variable> getVars() {
+        return this.vars;
+    }
+
+    //    @Override
     public List<Proposition> getSubProps() {
         return this.subProps;
     }
@@ -138,7 +146,7 @@ public class BinaryOperation implements Proposition {
         return this.operator;
     }
 
-    public void subPropSetter(String statement, List<Variable> vars) {
+    public void subPropSetter(String statement, List<Variable> vars, List<Proposition> operations) {
         if (statement.length() == 1) {
             List<String> varsAsString = new ArrayList<>();
             for (Variable var : this.vars) {
@@ -162,7 +170,14 @@ public class BinaryOperation implements Proposition {
 //                this.vars.add(localVar);
 //            }
         } else {
-            this.subProps.add(new BinaryOperation(statement.substring(1, statement.length() - 1), vars));
+            Proposition localBinOp =
+                    new BinaryOperation(statement.substring(1, statement.length() - 1), vars, operations);
+            this.subProps.add(localBinOp);
+            this.operations.add(localBinOp);
         }
+    }
+
+    public List<Proposition> getOOP() {
+        return this.operations;
     }
 }
