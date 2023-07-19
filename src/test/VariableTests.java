@@ -87,4 +87,13 @@ public class VariableTests {
         assertFalse(assignmentC.get(6));
         assertTrue(assignmentC.get(7));
     }
+
+    @Test
+    void testNullMethods() {
+        assertNull(a.getVars());
+        assertNull(a.getOOP());
+        assertNull(a.getOperator());
+        assertNull(a.getSubProps());
+        assertEquals(0, a.getNumVar());
+    }
 }

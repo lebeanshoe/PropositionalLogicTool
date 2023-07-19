@@ -47,44 +47,6 @@ public class Variable implements Proposition {
         }
         return assignment;
     }
-    /*
-    numVars = 4
-    n = 16
-
-    8   4   2   1   k
-
-    0   0   0   0
-    0   0   0   1
-    0   0   1   0
-    0   0   1   1
-    0   1   0   0
-    0   1   0   1
-    0   1   1   0
-    0   1   1   1
-    1   0   0   0
-    1   0   0   1
-    1   0   1   0
-    1   0   1   1
-    1   1   0   0
-    1   1   0   1
-    1   1   1   0
-    1   1   1   1
-     */
-
-    @Override
-    public Operator getOperator() {
-        return null;
-    }
-
-    @Override
-    public List<Proposition> getSubProps() {
-        return null;
-    }
-
-    @Override
-    public int getNumVar() {
-        return 0;
-    }
 
     @Override
     // EFFECTS: returns variable as a single letter
@@ -100,5 +62,20 @@ public class Variable implements Proposition {
     @Override
     public List<Proposition> getOOP() {
         return null;
+    }
+
+    @Override
+    public Operator getOperator() {
+        return null;
+    }
+
+    @Override
+    public List<Proposition> getSubProps() {
+        return null;
+    }
+
+    @Override
+    public int getNumVar() {
+        return 0;
     }
 }

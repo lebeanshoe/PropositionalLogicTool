@@ -4,7 +4,6 @@ import operators.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import static model.StatementSplitter.balancedGroups;
 
@@ -153,22 +152,16 @@ public class BinaryOperation implements Proposition {
                 varsAsString.add(var.toString());
             }
             if (!varsAsString.contains(statement)) {
-                Variable localVar = new Variable(statement, this.vars.size());
+                Variable localVar = new Variable(statement, getNumVar());
                 this.subProps.add(localVar);
-                this.vars.add(localVar);
+                addAlphabetically(this.vars, localVar);
                 for (Variable var : this.vars) {
-                    var.setNumVars(this.vars.size());
+                    var.setNumVars(getNumVar());
                 }
             } else {
                 int varPos = varsAsString.indexOf(statement);
                 this.subProps.add(this.vars.get(varPos));
             }
-
-//            Variable localVar = new Variable(statement);
-//            this.subProps.add(localVar);
-//            if (!this.vars.contains(localVar)) {
-//                this.vars.add(localVar);
-//            }
         } else {
             Proposition localBinOp =
                     new BinaryOperation(statement.substring(1, statement.length() - 1), vars, operations);
@@ -179,5 +172,22 @@ public class BinaryOperation implements Proposition {
 
     public List<Proposition> getOOP() {
         return this.operations;
+    }
+
+    private void addAlphabetically(List<Variable> vars, Variable localVar) {
+        if (vars.isEmpty()) {
+            vars.add(localVar);
+        } else {
+            int pos = 0;
+            for (int i = 0; i < vars.size(); i++) {
+                int res = localVar.toString().compareTo(vars.get(i).toString());
+                if (res > 0) {
+                    pos++;
+                } else {
+                    vars.add(pos, localVar);
+                    break;
+                }
+            }
+        }
     }
 }

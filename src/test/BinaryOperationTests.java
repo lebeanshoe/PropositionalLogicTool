@@ -18,6 +18,7 @@ public class BinaryOperationTests {
 
     private Proposition compoundOp1;
     private Proposition compoundOp2;
+    private Proposition compoundOp3;
 
     private Proposition twoDeep1;
     private Proposition twoDeep2;
@@ -33,6 +34,7 @@ public class BinaryOperationTests {
 
         compoundOp1 = new BinaryOperation("xv(~y)", new ArrayList<>(), new ArrayList<>());
         compoundOp2 = new BinaryOperation("(av(~b))^(avc)", new ArrayList<>(), new ArrayList<>()); // DIST law
+        compoundOp3 = new BinaryOperation("~(p^q)", new ArrayList<>(), new ArrayList<>());
 
         twoDeep1 = new BinaryOperation("((a ^ b) v (c -> d)) xor ((c v a) -> (b <-> d))", new ArrayList<>(), new ArrayList<>());
         twoDeep2 = new BinaryOperation("((x -> z) xor (w ^ y)) ^ (((~x) v y) ^ (w xor z))", new ArrayList<>(), new ArrayList<>());
@@ -89,6 +91,16 @@ public class BinaryOperationTests {
         assertEquals("v", rChild.getOperator().toString());
         assertEquals("a", rChild.getSubProps().get(0).toString());
         assertEquals("c", rChild.getSubProps().get(1).toString());
+    }
+
+    @Test
+    void testCompoundConstructor3() {
+        assertEquals("~", compoundOp3.getOperator().toString());
+
+        Proposition child = compoundOp3.getSubProps().get(0);
+        assertEquals("^", child.getOperator().toString());
+        assertEquals("p", child.getSubProps().get(0).toString());
+        assertEquals("q", child.getSubProps().get(1).toString());
     }
 
     @Test
@@ -202,6 +214,8 @@ public class BinaryOperationTests {
 
         assertEquals("(a v (~b)) ^ (a v c)", compoundOp2.toString());
         assertEquals("a v (~b)", compoundOp2.getSubProps().get(0).toString());
+
+        assertEquals("~(p ^ q)", compoundOp3.toString());
 
         assertEquals("(~x) v y", twoDeep2.getSubProps().get(1).getSubProps().get(0).toString());
     }
