@@ -28,7 +28,7 @@ see if they are equivalent
 of operations showing it to be valid, or an invalidating truth assignment_ **WIP**
 - _As a user, I can see my input's syntax being highlighted_ **WIP**
 - As a user, I can see a history of prior queries
-- _As a user, I can add selected queries to a canvas of queries_ **WIP (currently
+- As a user, I can add and remove selected queries to a canvas of queries **semi WIP (currently
   no graphical component to this)**
 - _As a user, I can freely move and edit queries on the canvas_ **WIP**
 - _As a user, I can save the current canvas for use after app restart_ **WIP**
