@@ -1,5 +1,4 @@
 import model.Comparison;
-import model.PropToTable;
 import model.Query;
 import operations.BinaryOperation;
 import operations.Proposition;
