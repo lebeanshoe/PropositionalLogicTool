@@ -3,15 +3,12 @@ package operations;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-this is where the truth assignments live
-
-has columns for variables, then operations, then the whole proposition
- */
+// represents a truth table with columns headers and truth assignments
 public class TruthTable {
     private List<Proposition> colHeads = new ArrayList<>();
     private List<List<Boolean>> assigns = new ArrayList<>();
 
+    // EFFECTS: constructs a truth table from the input proposition
     public TruthTable(Proposition prop) {
         colHeads.addAll(prop.getVars());
         colHeads.addAll(prop.getOOP());

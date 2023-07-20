@@ -47,7 +47,7 @@ public class Canvas {
     }
 
     // REQUIRES: query is in queries
-    // EFFECTS: gets X position of specified query
+    // EFFECTS: gets Y position of specified query
     public int getY(Query query) {
         int index = this.queries.indexOf(query);
         return this.posY.get(index);

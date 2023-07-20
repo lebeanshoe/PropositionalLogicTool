@@ -142,21 +142,22 @@ public class BinaryOperation implements Proposition {
         return this.vars;
     }
 
-    //    @Override
+    @Override
     public List<Proposition> getSubProps() {
         return this.subProps;
     }
 
-    //    @Override
+    @Override
     public int getNumVar() {
         return this.vars.size();
     }
 
-    //    @Override
+    @Override
     public Operator getOperator() {
         return this.operator;
     }
 
+    @Override
     public List<Proposition> getOOP() {
         return this.operations;
     }

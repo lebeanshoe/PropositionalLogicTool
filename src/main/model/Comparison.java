@@ -11,7 +11,7 @@ public class Comparison implements Query {
     private List<Proposition> inputs = new ArrayList<>();
     private List<TruthTable> outputs = new ArrayList<>();
 
-    // EFFECTS: constructs
+    // EFFECTS: constructs a comparison query
     public Comparison(Proposition input1, Proposition input2, TruthTable output1, TruthTable output2) {
         this.inputs.add(input1);
         this.inputs.add(input2);

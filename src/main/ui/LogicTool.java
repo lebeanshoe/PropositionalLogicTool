@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 import static model.StatementSplitter.balancedGroups;
 
-// from TellerApp
+// from TellerApp - https://github.students.cs.ubc.ca/CPSC210/TellerApp
 public class LogicTool {
     private Canvas canvas;
     private List<Query> history = new ArrayList<>();
@@ -62,7 +62,7 @@ public class LogicTool {
     }
 
     // MODIFIES: this
-    // EFFECTS: initializes scanner
+    // EFFECTS: initializes scanner and canvas
     private void init() {
         this.canvas = new Canvas();
         input = new Scanner(System.in);
@@ -80,7 +80,8 @@ public class LogicTool {
     }
 
     // MODIFIES: this
-    // EFFECTS: conducts a conversion from propositional logic statement to truth table and prints result
+    // EFFECTS: conducts a conversion from propositional logic statement to truth table, prints result,
+    //          and adds query to history
     private void doConversion() {
         System.out.print("Enter propositional logic statement: ");
         String in = input.next();
@@ -95,7 +96,7 @@ public class LogicTool {
     }
 
     // MODIFIES: this
-    // EFFECTS: conducts a comparison between two propositional logic statements
+    // EFFECTS: conducts a comparison between two propositional logic statements and adds query to history
     private void doComparison() {
         System.out.print("Enter first propositional logic statement: ");
         String first = input.next();

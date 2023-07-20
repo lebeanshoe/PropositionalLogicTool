@@ -11,7 +11,7 @@ public class PropToTable implements Query {
     private List<Proposition> input = new ArrayList<>();
     private List<TruthTable> output = new ArrayList<>();
 
-    // EFFECTS: constructs
+    // EFFECTS: constructs a proposition to truth table conversion query
     public PropToTable(Proposition input, TruthTable output) {
         this.input.add(input);
         this.output.add(output);

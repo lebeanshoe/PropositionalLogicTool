@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 // Taken from https://www.geeksforgeeks.org/split-parenthesis-sequence-into-maximum-valid-substrings/
+// a class containing method for splitting up strings
 public class StatementSplitter {
+
+    // EFFECTS: returns a list of strings, split up from input s by pairs of balanced parentheses,
+    //          non parentheses-contained strings split up by char
     public static List<String> balancedGroups(String s) {
         List<String> res = new ArrayList<>();
 
