@@ -1,5 +1,5 @@
-import operations.BinaryOperation;
-import operations.Proposition;
+package operations;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

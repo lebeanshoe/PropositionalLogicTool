@@ -1,6 +1,5 @@
-import operations.BinaryOperation;
-import operations.Proposition;
-import operations.TruthTable;
+package operations;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

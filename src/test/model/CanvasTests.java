@@ -1,6 +1,5 @@
-import model.Canvas;
-import model.PropToTable;
-import model.Query;
+package model;
+
 import operations.BinaryOperation;
 import operations.TruthTable;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,5 +1,5 @@
-import model.Comparison;
-import model.Query;
+package model;
+
 import operations.BinaryOperation;
 import operations.Proposition;
 import operations.TruthTable;
