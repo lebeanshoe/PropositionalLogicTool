@@ -22,7 +22,7 @@ public class CanvasTests {
 
     @BeforeEach
     void runBefore() {
-        testCanvas = new Canvas();
+        testCanvas = new Canvas("testCanvas");
         testBinOp = new BinaryOperation("a -> b", new ArrayList<>(), new ArrayList<>());
         testBinOp2 = new BinaryOperation("a ^ b", new ArrayList<>(), new ArrayList<>());
         testTab1 = new TruthTable(testBinOp);
@@ -33,6 +33,7 @@ public class CanvasTests {
 
     @Test
     void testConstructorEmpty() {
+        assertEquals("testCanvas", testCanvas.getName());
         assertTrue(testCanvas.getQueries().isEmpty());
     }
 

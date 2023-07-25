@@ -1,0 +1,25 @@
+{
+    "name": "User's Canvas",
+    "queries": [
+        {
+            "YPos": 0,
+            "XPos": 0,
+            "query": "PropToTable",
+            "proposition": "a ^ b"
+        },
+        {
+            "prop2": "(~a) ^ (~b)",
+            "prop1": "~(a v b)",
+            "YPos": 0,
+            "XPos": 0,
+            "query": "Comparison"
+        },
+        {
+            "prop2": "(a -> b) v (a <-> b)",
+            "prop1": "a xor b",
+            "YPos": 0,
+            "XPos": 0,
+            "query": "Comparison"
+        }
+    ]
+}

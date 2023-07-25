@@ -4,7 +4,11 @@ import model.*;
 import operations.BinaryOperation;
 import operations.Proposition;
 import operations.TruthTable;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -13,18 +17,21 @@ import static model.StatementSplitter.balancedGroups;
 
 // from TellerApp - https://github.students.cs.ubc.ca/CPSC210/TellerApp
 public class LogicTool {
+    private static final String JSON_STORE = "./data/canvas.json";
     private Canvas canvas;
     private List<Query> history = new ArrayList<>();
     private Scanner input;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     // EFFECTS: runs the logic tool application
-    public LogicTool() {
+    public LogicTool() throws FileNotFoundException {
         runLogicTool();
     }
 
     // MODIFIES: this
     // EFFECTS: processes user input
-    private void runLogicTool() {
+    private void runLogicTool() throws FileNotFoundException {
         boolean keepGoing = true;
         String command = null;
 
@@ -56,6 +63,10 @@ public class LogicTool {
             viewHistory();
         } else if (command.equals("v")) {
             editCanvas();
+        } else if (command.equals("s")) {
+            saveCanvas();
+        } else if (command.equals("l")) {
+            loadCanvas();
         } else {
             System.out.println("Selection not valid...");
         }
@@ -63,8 +74,10 @@ public class LogicTool {
 
     // MODIFIES: this
     // EFFECTS: initializes scanner and canvas
-    private void init() {
-        this.canvas = new Canvas();
+    private void init() throws FileNotFoundException {
+        this.canvas = new Canvas("User's Canvas");
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
         input = new Scanner(System.in);
         input.useDelimiter("\n");
     }
@@ -76,6 +89,8 @@ public class LogicTool {
         System.out.println("\tc -> propositional logic statement comparator");
         System.out.println("\th -> history");
         System.out.println("\tv -> edit canvas");
+        System.out.println("\ts -> save work room to file");
+        System.out.println("\tl -> load work room from file");
         System.out.println("\tq -> quit");
     }
 
@@ -167,10 +182,12 @@ public class LogicTool {
         System.out.println("\nSelect from:");
         System.out.println("\ta -> add to canvas");
         System.out.println("\tr -> remove from canvas");
-        if (input.next().equals("a")) {
-            System.out.print(this.canvas.getQueries().toString());
+        String command = input.next();
+        if (command.equals("a")) {
+            printCanvas();
             doAddToCanvas();
-        } else if (input.next().equals("r")) {
+        } else if (command.equals("r")) {
+            printCanvas();
             doRemoveFromCanvas();
         } else {
             System.out.println("Selection not valid...");
@@ -228,6 +245,15 @@ public class LogicTool {
         }
     }
 
+    // EFFECTS: prints out the list of queries in the canvas and their x and y positions
+    private void printCanvas() {
+        for (Query q : canvas.getQueries()) {
+            int index = canvas.getQueries().indexOf(q);
+            System.out.print(index + ". (" + canvas.getX(q) + ", " + canvas.getY(q) + ") ");
+            q.preview();
+        }
+    }
+
     // EFFECTS: returns false if given str is not a valid Proposition, otherwise true
     private boolean isValidStatement(String str) {
         if (str.length() == 0) {
@@ -237,6 +263,9 @@ public class LogicTool {
             int size = initialSplit.size();
             if (size == 1) {
                 return false;
+            } else if (size == 2) {
+                int n = initialSplit.get(1).length();
+                return initialSplit.get(0).equals("~") && isValidStatement(initialSplit.get(1).substring(1, n));
             } else {
                 StringBuilder operator = new StringBuilder();
 
@@ -281,5 +310,28 @@ public class LogicTool {
         }
 
         this.history.add(new Comparison(operation1, operation2, table1, table2));
+    }
+
+    // EFFECTS: saves the canvas to file
+    private void saveCanvas() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(canvas);
+            jsonWriter.close();
+            System.out.println("Saved " + canvas.getName() + " to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads workroom from file
+    private void loadCanvas() {
+        try {
+            canvas = jsonReader.read();
+            System.out.println("Loaded " + canvas.getName() + " from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
     }
 }

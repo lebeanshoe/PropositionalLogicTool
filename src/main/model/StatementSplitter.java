@@ -49,4 +49,8 @@ public class StatementSplitter {
         // Returning the vector res.
         return res;
     }
+
+    private StatementSplitter() {
+
+    }
 }

@@ -31,4 +31,5 @@ of operations showing it to be valid, or an invalidating truth assignment_ **WIP
 - As a user, I can add and remove selected queries to a canvas of queries **semi WIP (currently
   no graphical component to this)**
 - _As a user, I can freely move and edit queries on the canvas_ **WIP**
-- _As a user, I can save the current canvas for use after app restart_ **WIP**
+- As a user, I can save the current canvas for use after app restart
+- As a user, I can load a canvas of my choosing from a save file

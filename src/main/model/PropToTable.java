@@ -2,6 +2,7 @@ package model;
 
 import operations.Proposition;
 import operations.TruthTable;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,5 +32,21 @@ public class PropToTable implements Query {
     // EFFECTS: prints out the input of this query
     public void preview() {
         System.out.println("Conversion to truth table: " + this.input.get(0).toString());
+    }
+
+    @Override
+    public JSONObject toJson(int x, int y) {
+        JSONObject json = toJson();
+        json.put("XPos", x);
+        json.put("YPos", y);
+        return json;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("query", "PropToTable");
+        json.put("proposition", getInputs().get(0).toString());
+        return json;
     }
 }

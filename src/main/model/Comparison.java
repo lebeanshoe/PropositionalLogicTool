@@ -2,6 +2,7 @@ package model;
 
 import operations.Proposition;
 import operations.TruthTable;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,5 +35,22 @@ public class Comparison implements Query {
     public void preview() {
         System.out.println("Comparison between " + this.inputs.get(0).toString()
                 + " and " + this.inputs.get(1).toString());
+    }
+
+    @Override
+    public JSONObject toJson(int x, int y) {
+        JSONObject json = toJson();
+        json.put("XPos", x);
+        json.put("YPos", y);
+        return json;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("query", "Comparison");
+        json.put("prop1", getInputs().get(0).toString());
+        json.put("prop2", getInputs().get(1).toString());
+        return json;
     }
 }
