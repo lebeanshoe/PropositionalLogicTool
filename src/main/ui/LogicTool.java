@@ -164,6 +164,7 @@ public class LogicTool {
 
     // EFFECTS: prints out the history of queries
     private void showHistory() {
+        System.out.println("History:");
         for (Query query : this.history) {
             int index = this.history.indexOf(query);
             System.out.print(index + ". ");
@@ -212,8 +213,8 @@ public class LogicTool {
     public void doRemoveFromCanvas() {
         System.out.println("\nSelect query no. to remove: ");
         int targetNo = input.nextInt();
-        if ((targetNo >= 0) && (targetNo <= this.history.size() - 1)) {
-            Query target = this.history.get(targetNo);
+        if ((targetNo >= 0) && (targetNo <= this.canvas.getQueries().size() - 1)) {
+            Query target = this.canvas.getQueries().get(targetNo);
             canvas.removeQuery(target);
         } else {
             System.out.println("Invalid index number!");
@@ -247,6 +248,7 @@ public class LogicTool {
 
     // EFFECTS: prints out the list of queries in the canvas and their x and y positions
     private void printCanvas() {
+        System.out.println("Canvas queries:");
         for (Query q : canvas.getQueries()) {
             int index = canvas.getQueries().indexOf(q);
             System.out.print(index + ". (" + canvas.getX(q) + ", " + canvas.getY(q) + ") ");

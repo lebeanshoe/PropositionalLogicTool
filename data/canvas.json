@@ -15,8 +15,8 @@
             "query": "Comparison"
         },
         {
-            "prop2": "(a -> b) v (a <-> b)",
-            "prop1": "a xor b",
+            "prop2": "a ^ (b v c)",
+            "prop1": "(a ^ b) v (a ^ c)",
             "YPos": 0,
             "XPos": 0,
             "query": "Comparison"
