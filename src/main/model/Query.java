@@ -16,5 +16,6 @@ public interface Query extends Writable {
     // EFFECTS: prints a preview of the query input(s)
     void preview();
 
+    // EFFECTS: returns this as a Json object with coordinates x,y
     JSONObject toJson(int x, int y);
 }

@@ -5,6 +5,7 @@ import operators.Operator;
 import java.util.ArrayList;
 import java.util.List;
 
+// represents a single letter variable
 public class Variable implements Proposition {
     private String var;
     private int numVars;
