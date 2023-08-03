@@ -1,9 +1,11 @@
 package ui;
 
+import exceptions.InvalidStatementException;
 import model.*;
 import operations.BinaryOperation;
 import operations.Proposition;
 import operations.TruthTable;
+import operations.Variable;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -19,7 +21,7 @@ import static model.StatementSplitter.balancedGroups;
 public class LogicTool {
     private static final String JSON_STORE = "./data/canvas.json";
     private Canvas canvas;
-    private List<Query> history = new ArrayList<>();
+    private List<Query> history;
     private Scanner input;
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
@@ -61,6 +63,8 @@ public class LogicTool {
             doComparison();
         } else if (command.equals("h")) {
             viewHistory();
+        } else if (command.equals("x")) {
+            clearHistory();
         } else if (command.equals("v")) {
             editCanvas();
         } else if (command.equals("s")) {
@@ -76,6 +80,7 @@ public class LogicTool {
     // EFFECTS: initializes scanner and canvas
     private void init() throws FileNotFoundException {
         this.canvas = new Canvas("User's Canvas");
+        this.history = new ArrayList<>();
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
         input = new Scanner(System.in);
@@ -87,7 +92,8 @@ public class LogicTool {
         System.out.println("\nSelect from:");
         System.out.println("\tt -> truth table converter");
         System.out.println("\tc -> propositional logic statement comparator");
-        System.out.println("\th -> history");
+        System.out.println("\th -> view history");
+        System.out.println("\tx -> clear history");
         System.out.println("\tv -> edit canvas");
         System.out.println("\ts -> save work room to file");
         System.out.println("\tl -> load work room from file");
@@ -100,12 +106,12 @@ public class LogicTool {
     private void doConversion() {
         System.out.print("Enter propositional logic statement: ");
         String in = input.next();
-        if (isValidStatement(in)) {
+        try {
             BinaryOperation operation = new BinaryOperation(in, new ArrayList<>(), new ArrayList<>());
             TruthTable table = new TruthTable(operation);
             printTable(table);
             this.history.add(new PropToTable(operation, table));
-        } else {
+        } catch (InvalidStatementException e) {
             System.out.println("Please enter a valid propositional logic statement");
         }
     }
@@ -117,10 +123,10 @@ public class LogicTool {
         String first = input.next();
         TruthTable table1;
         BinaryOperation operation1;
-        if (isValidStatement(first)) {
+        try {
             operation1 = new BinaryOperation(first, new ArrayList<>(), new ArrayList<>());
             table1 = new TruthTable(operation1);
-        } else {
+        } catch (InvalidStatementException e) {
             System.out.println("Please enter a valid propositional logic statement");
             return;
         }
@@ -128,10 +134,10 @@ public class LogicTool {
         String second = input.next();
         TruthTable table2;
         BinaryOperation operation2;
-        if (isValidStatement(second)) {
+        try {
             operation2 = new BinaryOperation(second, new ArrayList<>(), new ArrayList<>());
             table2 = new TruthTable(operation2);
-        } else {
+        } catch (InvalidStatementException e) {
             System.out.println("Please enter a valid propositional logic statement");
             return;
         }
@@ -148,7 +154,7 @@ public class LogicTool {
 
             System.out.println("\nExpand query no.? ");
             int targetNo = input.nextInt();
-            if ((targetNo >= 0) && (targetNo <= this.history.size() - 1)) {
+            try {
                 Query target = this.history.get(targetNo);
                 if (target.getClass() == PropToTable.class) {
                     printTable(target.getOutputs().get(0));
@@ -156,7 +162,7 @@ public class LogicTool {
                     equivalency(target.getInputs().get(0), target.getInputs().get(1),
                             target.getOutputs().get(0), target.getOutputs().get(1));
                 }
-            } else {
+            } catch (IndexOutOfBoundsException e) {
                 System.out.println("Invalid index number!");
             }
         }
@@ -181,17 +187,37 @@ public class LogicTool {
             showHistory();
         }
         System.out.println("\nSelect from:");
+        System.out.println("\tv -> view canvas");
         System.out.println("\ta -> add to canvas");
         System.out.println("\tr -> remove from canvas");
         String command = input.next();
-        if (command.equals("a")) {
-            printCanvas();
+        printCanvas();
+        if (command.equals("v")) {
+            doViewCanvas();
+        } else if (command.equals("a")) {
             doAddToCanvas();
         } else if (command.equals("r")) {
-            printCanvas();
             doRemoveFromCanvas();
         } else {
             System.out.println("Selection not valid...");
+        }
+    }
+
+    // EFFECTS: prints outputs of selected query from canvas
+    public void doViewCanvas() {
+        System.out.println("\nExpand query no.? ");
+        int targetNo = input.nextInt();
+        try {
+            Query target = this.canvas.getQueries().get(targetNo);
+            if (target.getClass() == PropToTable.class) {
+                printTable(target.getOutputs().get(0));
+                printHashTable(target.getOutputs().get(0)); // TODO resolve redundancy
+            } else {
+                equivalency(target.getInputs().get(0), target.getInputs().get(1),
+                        target.getOutputs().get(0), target.getOutputs().get(1));
+            }
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Invalid index number!");
         }
     }
 
@@ -200,10 +226,10 @@ public class LogicTool {
     public void doAddToCanvas() {
         System.out.println("\nSelect query no. to add: ");
         int targetNo = input.nextInt();
-        if ((targetNo >= 0) && (targetNo <= this.history.size() - 1)) {
+        try {
             Query target = this.history.get(targetNo);
             canvas.addQuery(target, 0, 0);
-        } else {
+        } catch (IndexOutOfBoundsException e) {
             System.out.println("Invalid index number!");
         }
     }
@@ -213,10 +239,10 @@ public class LogicTool {
     public void doRemoveFromCanvas() {
         System.out.println("\nSelect query no. to remove: ");
         int targetNo = input.nextInt();
-        if ((targetNo >= 0) && (targetNo <= this.canvas.getQueries().size() - 1)) {
+        try {
             Query target = this.canvas.getQueries().get(targetNo);
             canvas.removeQuery(target);
-        } else {
+        } catch (IndexOutOfBoundsException e) {
             System.out.println("Invalid index number!");
         }
     }
@@ -246,6 +272,19 @@ public class LogicTool {
         }
     }
 
+    // temporary version of printTable using HashMap implementation
+    private void printHashTable(TruthTable tab) {
+        Proposition prop = tab.getProp();
+        List<Proposition> headers = new ArrayList<>();
+        headers.addAll(prop.getVars());
+        headers.addAll(prop.getOOP());
+        headers.add(prop);
+        for (Proposition p : headers) {
+            String str = p.toString();
+            System.out.print(str + "\t");
+        }
+    }
+
     // EFFECTS: prints out the list of queries in the canvas and their x and y positions
     private void printCanvas() {
         System.out.println("Canvas queries:");
@@ -256,44 +295,18 @@ public class LogicTool {
         }
     }
 
-    // EFFECTS: returns false if given str is not a valid Proposition, otherwise true
-    private boolean isValidStatement(String str) {
-        if (str.length() == 0) {
-            return false;
-        } else {
-            List<String> initialSplit = balancedGroups(str);
-            int size = initialSplit.size();
-            if (size == 1) {
-                return false;
-            } else if (size == 2) {
-                int n = initialSplit.get(1).length();
-                return initialSplit.get(0).equals("~") && isValidStatement(initialSplit.get(1).substring(1, n));
-            } else {
-                StringBuilder operator = new StringBuilder();
-
-                // Builds operator string
-                for (int i = 1; i < size - 1; i++) {
-                    if (!initialSplit.get(i).equals(" ")) {
-                        operator.append(initialSplit.get(i));
-                    }
-                }
-                return isValidOperator(operator.toString());
-            }
-        }
-    }
-
-    // EFFECTS: returns false if given str is not a valid Operator, otherwise true
-    private boolean isValidOperator(String operator) {
-        return operator.equals("^") | operator.equals("<->") | operator.equals("<=>") | operator.equals("->")
-                | operator.equals("=>") | operator.equals("~") | operator.equals("v") | operator.equals("xor");
-    }
-
     // EFFECTS: converts false -> 0 and true -> 1
     private int boolToInt(boolean bool) {
         if (bool) {
             return 1;
         }
         return 0;
+    }
+
+    // EFFECTS: clears all prior history of queries
+    private void clearHistory() {
+        this.history = new ArrayList<>();
+        System.out.println("History cleared!");
     }
 
     // MODIFIES: this

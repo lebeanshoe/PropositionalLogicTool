@@ -1,9 +1,11 @@
 package operations;
 
+import exceptions.InvalidStatementException;
 import operators.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static model.StatementSplitter.balancedGroups;
 
@@ -15,35 +17,23 @@ public class BinaryOperation implements Proposition {
     private List<Variable> vars;
     private List<Proposition> operations;
 
-    // REQUIRES: There must be no parentheses that encapsulate the entire statement.
-    //           Must be a valid statement.
     // EFFECTS: constructs a binary operation out of the string:
     //          - each variable is only counted once
     //          - stores the order of operations in this.operations, up to but not including the root
     //            proposition
-    public BinaryOperation(String statement, List<Variable> vars, List<Proposition> operations) {
+    public BinaryOperation(String statement, List<Variable> vars, List<Proposition> operations)
+            throws InvalidStatementException {
+        if (!isValidStatement(statement)) {
+            throw new InvalidStatementException();
+        }
         this.vars = vars;
         this.operations = operations;
         List<String> initialSplit = balancedGroups(statement);
         int elements = initialSplit.size();
         if (elements == 2) {
-            this.operator = new Not();
-            String subProp = initialSplit.get(1);
-            subPropSetter(subProp, vars, operations);
+            buildUnaryOperation(initialSplit, vars, operations);
         } else {
-            StringBuilder operator = new StringBuilder();
-            String subProp1 = initialSplit.get(0);
-            String subProp2 = initialSplit.get(elements - 1);
-
-            // Builds operator string
-            for (int i = 1; i < elements - 1; i++) {
-                if (!initialSplit.get(i).equals(" ")) {
-                    operator.append(initialSplit.get(i));
-                }
-            }
-            this.operator = chooseOperator(operator.toString());
-            subPropSetter(subProp1, vars, operations);
-            subPropSetter(subProp2, vars, operations);
+            buildBinaryOperation(initialSplit, vars, operations, elements);
         }
     }
 
@@ -61,6 +51,69 @@ public class BinaryOperation implements Proposition {
         } else {
             return new Xor();
         }
+    }
+
+    // EFFECTS: returns false if given str is not a valid Proposition, otherwise true
+    private boolean isValidStatement(String str) {
+        if (str.length() == 0) {
+            return false;
+        } else {
+            List<String> initialSplit = balancedGroups(str);
+            int size = initialSplit.size();
+            if (size == 1) {
+                return false;
+            } else if (size == 2) {
+                int n = initialSplit.get(1).length();
+                if (n == 1) { // second element is single variable
+                    return initialSplit.get(0).equals("~");
+                }
+                return initialSplit.get(0).equals("~") && isValidStatement(initialSplit.get(1).substring(1, n));
+            } else {
+                StringBuilder operator = new StringBuilder();
+
+                // Builds operator string
+                for (int i = 1; i < size - 1; i++) {
+                    if (!initialSplit.get(i).equals(" ")) {
+                        operator.append(initialSplit.get(i));
+                    }
+                }
+                return isValidOperator(operator.toString());
+            }
+        }
+    }
+
+    // EFFECTS: returns false if given str is not a valid Operator, otherwise true
+    private boolean isValidOperator(String operator) {
+        return operator.equals("^") | operator.equals("<->") | operator.equals("<=>") | operator.equals("->")
+                | operator.equals("=>") | operator.equals("~") | operator.equals("v") | operator.equals("xor");
+    }
+
+    // MODIFIES: this
+    // EFFECTS: builds appropriate unary operation out of inputs
+    private void buildUnaryOperation(List<String> split, List<Variable> vars, List<Proposition> operations)
+            throws InvalidStatementException {
+        this.operator = new Not();
+        String subProp = split.get(1);
+        subPropSetter(subProp, vars, operations);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: builds appropriate binary operation out of inputs
+    private void buildBinaryOperation(List<String> split, List<Variable> vars, List<Proposition> operations,
+                                      int elements) throws InvalidStatementException {
+        StringBuilder operator = new StringBuilder();
+        String subProp1 = split.get(0);
+        String subProp2 = split.get(elements - 1);
+
+        // Builds operator string
+        for (int i = 1; i < elements - 1; i++) {
+            if (!split.get(i).equals(" ")) {
+                operator.append(split.get(i));
+            }
+        }
+        this.operator = chooseOperator(operator.toString());
+        subPropSetter(subProp1, vars, operations);
+        subPropSetter(subProp2, vars, operations);
     }
 
     // EFFECTS: returns a list of booleans representing an operation's truth assignment
@@ -112,7 +165,8 @@ public class BinaryOperation implements Proposition {
     //          out of it. If it constructs a Variable, adds it to subProps, and adds it to vars if not
     //          already in it, otherwise do nothing. If it constructs a BinaryOperation, adds it to
     //          subVars.
-    public void subPropSetter(String statement, List<Variable> vars, List<Proposition> operations) {
+    public void subPropSetter(String statement, List<Variable> vars, List<Proposition> operations)
+            throws InvalidStatementException {
         if (statement.length() == 1) {
             List<String> varsAsString = new ArrayList<>();
             for (Variable var : this.vars) {
@@ -160,5 +214,24 @@ public class BinaryOperation implements Proposition {
     @Override
     public List<Proposition> getOOP() {
         return this.operations;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        BinaryOperation that = (BinaryOperation) o;
+
+        return Objects.equals(toString(), that.toString());
+    }
+
+    @Override
+    public int hashCode() {
+        return toString() != null ? toString().hashCode() : 0;
     }
 }

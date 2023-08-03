@@ -1,5 +1,6 @@
 package operations;
 
+import exceptions.InvalidStatementException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,11 +34,14 @@ public class BinaryOperationTests {
         longOperator2 = new BinaryOperation("h xor i", new ArrayList<>(), new ArrayList<>());
 
         compoundOp1 = new BinaryOperation("xv(~y)", new ArrayList<>(), new ArrayList<>());
-        compoundOp2 = new BinaryOperation("(av(~b))^(avc)", new ArrayList<>(), new ArrayList<>()); // DIST law
+        compoundOp2 = new BinaryOperation("(av(~b))^(avc)",
+                new ArrayList<>(), new ArrayList<>()); // DIST law
         compoundOp3 = new BinaryOperation("~(p^q)", new ArrayList<>(), new ArrayList<>());
 
-        twoDeep1 = new BinaryOperation("((a ^ b) v (c -> d)) xor ((c v a) -> (b <-> d))", new ArrayList<>(), new ArrayList<>());
-        twoDeep2 = new BinaryOperation("((x -> z) xor (w ^ y)) ^ (((~x) v y) ^ (w xor z))", new ArrayList<>(), new ArrayList<>());
+        twoDeep1 = new BinaryOperation("((a ^ b) v (c -> d)) xor ((c v a) -> (b <-> d))",
+                new ArrayList<>(), new ArrayList<>());
+        twoDeep2 = new BinaryOperation("((x -> z) xor (w ^ y)) ^ (((~x) v y) ^ (w xor z))",
+                new ArrayList<>(), new ArrayList<>());
     }
 
     @Test

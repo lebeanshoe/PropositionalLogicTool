@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 // Represents a comparison query between two propositions. Contains input propositions and output truth tables.
 public class Comparison implements Query {
@@ -52,5 +53,22 @@ public class Comparison implements Query {
         json.put("prop1", getInputs().get(0).toString());
         json.put("prop2", getInputs().get(1).toString());
         return json;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Comparison that = (Comparison) o;
+        return Objects.equals(inputs, that.inputs) && Objects.equals(outputs, that.outputs);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(inputs, outputs);
     }
 }

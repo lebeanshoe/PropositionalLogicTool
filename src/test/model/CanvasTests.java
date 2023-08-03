@@ -1,5 +1,6 @@
 package model;
 
+import exceptions.InvalidStatementException;
 import operations.BinaryOperation;
 import operations.TruthTable;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,8 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CanvasTests {
     private Canvas testCanvas;

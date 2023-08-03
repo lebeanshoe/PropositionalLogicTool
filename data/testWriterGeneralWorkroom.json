@@ -2,17 +2,17 @@
     "name": "My writer general canvas",
     "queries": [
         {
-            "YPos": 26,
-            "XPos": 25,
-            "query": "PropToTable",
-            "proposition": "a ^ b"
-        },
-        {
             "prop2": "(~p) ^ (~q)",
             "prop1": "~(p v q)",
             "YPos": 66,
             "XPos": 65,
             "query": "Comparison"
+        },
+        {
+            "YPos": 26,
+            "XPos": 25,
+            "query": "PropToTable",
+            "proposition": "a ^ b"
         }
     ]
 }

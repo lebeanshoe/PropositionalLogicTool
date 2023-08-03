@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 // Represents a conversion query from proposition to truth table. Contains input proposition and output table.
 public class PropToTable implements Query {
@@ -48,5 +49,29 @@ public class PropToTable implements Query {
         json.put("query", "PropToTable");
         json.put("proposition", getInputs().get(0).toString());
         return json;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        PropToTable that = (PropToTable) o;
+
+        if (!Objects.equals(input, that.input)) {
+            return false;
+        }
+        return Objects.equals(output, that.output);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = input != null ? input.hashCode() : 0;
+        result = 31 * result + (output != null ? output.hashCode() : 0);
+        return result;
     }
 }

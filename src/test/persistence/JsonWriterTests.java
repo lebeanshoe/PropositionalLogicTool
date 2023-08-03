@@ -59,8 +59,10 @@ public class JsonWriterTests extends JsonTest{
             TruthTable tab1 = new TruthTable(binOp1);
             TruthTable tab2 = new TruthTable(binOp2);
             TruthTable tab3 = new TruthTable(binOp3);
-            cv.addQuery(new PropToTable(binOp1, tab1), 25, 26);
-            cv.addQuery(new Comparison(binOp2, binOp3, tab2, tab3), 65, 66);
+            PropToTable query1 = new PropToTable(binOp1, tab1);
+            Comparison query2 = new Comparison(binOp2, binOp3, tab2, tab3);
+            cv.addQuery(query1, 25, 26);
+            cv.addQuery(query2, 65, 66);
             JsonWriter writer = new JsonWriter("./data/testWriterGeneralWorkroom.json");
             writer.open();
             writer.write(cv);
@@ -72,14 +74,9 @@ public class JsonWriterTests extends JsonTest{
             List<Query> queries = cv.getQueries();
             assertEquals(2, queries.size());
 
-            Query query1 = queries.get(0);
-            checkQuery(PropToTable.class, 25, 26, query1, cv);
-            assertEquals("a ^ b", query1.getInputs().get(0).toString());
+            checkQuery(25, 26, query1, cv);
 
-            Query query2 = queries.get(1);
-            checkQuery(Comparison.class, 65, 66, query2, cv);
-            assertEquals("~(p v q)", query2.getInputs().get(0).toString());
-            assertEquals("(~p) ^ (~q)", query2.getInputs().get(1).toString());
+            checkQuery(65, 66, query2, cv);
 //            List<Thingy> thingies = cv.getThingies();
 //            assertEquals(2, thingies.size());
 //            checkThingy("saw", Category.METALWORK, thingies.get(0));

@@ -20,6 +20,12 @@
             "YPos": 0,
             "XPos": 0,
             "query": "Comparison"
+        },
+        {
+            "YPos": 0,
+            "XPos": 0,
+            "query": "PropToTable",
+            "proposition": "(a ^ b) v c"
         }
     ]
 }

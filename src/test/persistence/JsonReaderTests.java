@@ -4,9 +4,13 @@ import model.Canvas;
 import model.Comparison;
 import model.PropToTable;
 import model.Query;
+import operations.BinaryOperation;
+import operations.BinaryOperationTests;
+import operations.TruthTable;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -40,20 +44,23 @@ public class JsonReaderTests extends JsonTest{
     @Test
     void testReaderGeneralWorkRoom() {
         JsonReader reader = new JsonReader("./data/testReaderGeneralCanvas.json");
+        BinaryOperation binOp1 = new BinaryOperation("a ^ b", new ArrayList<>(), new ArrayList<>());
+        TruthTable tab1 = new TruthTable(binOp1);
+        BinaryOperation binOp2a = new BinaryOperation("a xor b", new ArrayList<>(), new ArrayList<>());
+        BinaryOperation binOp2b = new BinaryOperation("(a -> b) v (a <-> b)",
+                new ArrayList<>(), new ArrayList<>());
+        TruthTable tab2a = new TruthTable(binOp2a);
+        TruthTable tab2b = new TruthTable(binOp2b);
+        PropToTable query1 = new PropToTable(binOp1, tab1);
+        Comparison query2 = new Comparison(binOp2a, binOp2b, tab2a, tab2b);
         try {
             Canvas cv = reader.read();
             assertEquals("My canvas", cv.getName());
             List<Query> queries = cv.getQueries();
             assertEquals(2, queries.size());
 
-            Query query1 = queries.get(0);
-            checkQuery(PropToTable.class, 55, 50, query1, cv);
-            assertEquals("a ^ b", query1.getInputs().get(0).toString());
-
-            Query query2 = queries.get(1);
-            checkQuery(Comparison.class, 101, 100, query2, cv);
-            assertEquals("a xor b", query2.getInputs().get(0).toString());
-            assertEquals("(a -> b) v (a <-> b)", query2.getInputs().get(1).toString());
+            checkQuery(55, 50, query1, cv);
+            checkQuery(101, 100, query2, cv);
         } catch (IOException e) {
             fail("Couldn't read from file");
         }
