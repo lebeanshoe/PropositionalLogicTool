@@ -233,7 +233,7 @@ public class LogicToolUI extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent evt) {
-            canvasPane = new JDesktopPane();
+            canvasPane = new JDesktopPane(); // todo - delete - test commit to make sure back on main
         }
     }
 
