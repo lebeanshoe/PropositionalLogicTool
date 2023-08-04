@@ -4,6 +4,7 @@ import operators.Operator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 // represents a single letter variable
 public class Variable implements Proposition {
@@ -51,6 +52,23 @@ public class Variable implements Proposition {
     // EFFECTS: returns variable as a single letter
     public String toString() {
         return this.var;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Variable variable = (Variable) o;
+        return numVars == variable.numVars && varNum == variable.varNum && Objects.equals(var, variable.var);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(var, numVars, varNum);
     }
 
     @Override

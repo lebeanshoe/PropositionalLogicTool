@@ -1,11 +1,10 @@
-package ui;
+package clideprecated;
 
 import exceptions.InvalidStatementException;
 import model.*;
 import operations.BinaryOperation;
 import operations.Proposition;
 import operations.TruthTable;
-import operations.Variable;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -14,8 +13,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-import static model.StatementSplitter.balancedGroups;
 
 // from TellerApp - https://github.students.cs.ubc.ca/CPSC210/TellerApp
 public class LogicTool {
@@ -211,7 +208,6 @@ public class LogicTool {
             Query target = this.canvas.getQueries().get(targetNo);
             if (target.getClass() == PropToTable.class) {
                 printTable(target.getOutputs().get(0));
-                printHashTable(target.getOutputs().get(0)); // TODO resolve redundancy
             } else {
                 equivalency(target.getInputs().get(0), target.getInputs().get(1),
                         target.getOutputs().get(0), target.getOutputs().get(1));
@@ -272,18 +268,18 @@ public class LogicTool {
         }
     }
 
-    // temporary version of printTable using HashMap implementation
-    private void printHashTable(TruthTable tab) {
-        Proposition prop = tab.getProp();
-        List<Proposition> headers = new ArrayList<>();
-        headers.addAll(prop.getVars());
-        headers.addAll(prop.getOOP());
-        headers.add(prop);
-        for (Proposition p : headers) {
-            String str = p.toString();
-            System.out.print(str + "\t");
-        }
-    }
+//    // temporary version of printTable using HashMap implementation
+//    private void printHashTable(TruthTable tab) {
+//        Proposition prop = tab.getProp();
+//        List<Proposition> headers = new ArrayList<>();
+//        headers.addAll(prop.getVars());
+//        headers.addAll(prop.getOOP());
+//        headers.add(prop);
+//        for (Proposition p : headers) {
+//            String str = p.toString();
+//            System.out.print(str + "\t");
+//        }
+//    }
 
     // EFFECTS: prints out the list of queries in the canvas and their x and y positions
     private void printCanvas() {

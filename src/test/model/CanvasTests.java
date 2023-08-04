@@ -42,6 +42,12 @@ public class CanvasTests {
         assertEquals(1, testCanvas.getQueries().size());
         assertEquals(0, testCanvas.getX(testQuery));
         assertEquals(5, testCanvas.getY(testQuery));
+        assertTrue(testCanvas.getQueries().contains(testQuery));
+
+        BinaryOperation samp = new BinaryOperation("a -> b", new ArrayList<>(), new ArrayList<>());
+        TruthTable sampTab = new TruthTable(samp);
+        Query sampQuery = new PropToTable(samp, sampTab);
+        assertTrue(testCanvas.getQueries().contains(sampQuery));
     }
 
     @Test

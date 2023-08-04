@@ -1,4 +1,4 @@
-package ui;
+package clideprecated;
 
 import java.io.FileNotFoundException;
 

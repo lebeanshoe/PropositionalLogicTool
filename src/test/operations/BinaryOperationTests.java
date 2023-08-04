@@ -60,6 +60,12 @@ public class BinaryOperationTests {
     }
 
     @Test
+    void testEqualsOverride() {
+        BinaryOperation sample = new BinaryOperation("b v c", new ArrayList<>(), new ArrayList<>());
+        assertTrue(sample.equals(simpleBin1));
+    }
+
+    @Test
     void testLongConstructor() {
         assertEquals("<->", longOperator1.getOperator().toString());
         assertEquals("f", longOperator1.getSubProps().get(0).toString());

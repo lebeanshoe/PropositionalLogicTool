@@ -36,7 +36,7 @@ public class Canvas implements Writable {
     }
 
     public List<Query> getQueries() {
-        return new ArrayList<>(Collections.unmodifiableSet(this.hashQueries.keySet()));
+        return new ArrayList<>(this.hashQueries.keySet());
     }
 
     // REQUIRES: query is in queries

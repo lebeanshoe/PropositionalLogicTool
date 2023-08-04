@@ -29,6 +29,13 @@ public class TruthTableTests {
     }
 
     @Test
+    void testEqualsOverride() {
+        BinaryOperation sampBin = new BinaryOperation("a ^b", new ArrayList<>(), new ArrayList<>());
+        TruthTable sampTab = new TruthTable(sampBin);
+        assertTrue(oneBinTT.equals(sampTab));
+    }
+
+    @Test
     void testOneNot() {
         List<Proposition> colHeads = oneNotTT.getColumnHeaders();
         List<List<Boolean>> assigns = oneNotTT.getAssignments();
