@@ -13,6 +13,8 @@ public interface Query extends Writable {
 
     List<TruthTable> getOutputs();
 
+    String getType();
+
     // EFFECTS: prints a preview of the query input(s)
     void preview();
 

@@ -30,6 +30,11 @@ public class PropToTable implements Query {
     }
 
     @Override
+    public String getType() {
+        return "Truth Table Conversion";
+    }
+
+    @Override
     // EFFECTS: prints out the input of this query
     public void preview() {
         System.out.println("Conversion to truth table: " + this.input.get(0).toString());

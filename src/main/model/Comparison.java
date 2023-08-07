@@ -32,6 +32,11 @@ public class Comparison implements Query {
     }
 
     @Override
+    public String getType() {
+        return "Comparison";
+    }
+
+    @Override
     // EFFECTS: prints out the inputs of this query
     public void preview() {
         System.out.println("Comparison between " + this.inputs.get(0).toString()

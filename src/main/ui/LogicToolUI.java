@@ -88,8 +88,8 @@ public class LogicToolUI extends JFrame {
 
         JMenu canvasMenu = new JMenu("Canvas");
         canvasMenu.setMnemonic('C');
-        addMenuItem(canvasMenu, new ViewCanvasListAction(), null);
         addMenuItem(canvasMenu, new ViewCanvasAction(), null);
+        addMenuItem(canvasMenu, new ViewCanvasListAction(), null);
 //        addMenuItem(canvasMenu, new AddQueryAction(), null);
 //        addMenuItem(canvasMenu, new RemoveQueryAction(), null);
         menuBar.add(canvasMenu);
@@ -173,7 +173,7 @@ public class LogicToolUI extends JFrame {
     // represents action to be taken to view list of canvas queries
     private class ViewCanvasListAction extends AbstractAction {
         ViewCanvasListAction() {
-            super("View Canvas List");
+            super("View Canvas List (console debugging)");
         }
 
         @Override

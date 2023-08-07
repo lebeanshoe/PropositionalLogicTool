@@ -15,7 +15,7 @@ import java.util.List;
 // Provides methods for displaying truth tables
 public class TruthTableUI {
     private static final int ROW_HEIGHT_MULTIPLIER = 22;
-    private static final int COL_WIDTH_PER_CHAR_MULTIPLIER = 12;
+    private static final int COL_WIDTH_PER_CHAR_MULTIPLIER = 10;
 
 /*    // EFFECTS: prints out given truth table with columns headers as variables and operations.
     public String printTable(TruthTable tab) {
