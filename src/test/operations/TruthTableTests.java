@@ -32,9 +32,17 @@ public class TruthTableTests {
     void testEqualsOverride() {
         BinaryOperation sampBin = new BinaryOperation("a ^b", new ArrayList<>(), new ArrayList<>());
         TruthTable sampTab = new TruthTable(sampBin);
+        BinaryOperation sampBin2 = new BinaryOperation("a ^ b", new ArrayList<>(), new ArrayList<>());
+        TruthTable sampTab2 = new TruthTable(sampBin2);
+        BinaryOperation sampBin3 = new BinaryOperation("avb", new ArrayList<>(), new ArrayList<>());
+        TruthTable sampTab3 = new TruthTable(sampBin3);
+
         assertTrue(oneBinTT.equals(sampTab));
         assertFalse(oneBinTT.equals("not equals"));
         assertFalse(oneBinTT.equals(null));
+
+        assertTrue(sampTab.hashCode() == sampTab2.hashCode());
+        assertFalse(sampTab.hashCode() == sampTab3.hashCode());
     }
 
     @Test

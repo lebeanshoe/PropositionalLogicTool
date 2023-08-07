@@ -51,17 +51,26 @@ public class VariableTests {
         x7.setNumVars(4);
         x8.setNumVars(3);
         assertTrue(x1.equals(x1));
+        assertTrue(x1.hashCode() == x1.hashCode());
         assertFalse(x1.equals("x"));
         assertFalse(x1.equals(null));
         assertTrue(x1.equals(x0));
+        assertTrue(x1.hashCode() == x0.hashCode());
 
         assertFalse(x1.equals(x2));
+        assertFalse(x1.hashCode() == x2.hashCode());
         assertFalse(x1.equals(x3));
+        assertFalse(x1.hashCode() == x3.hashCode());
         assertFalse(x1.equals(x4));
+        assertFalse(x1.hashCode() == x4.hashCode());
         assertFalse(x1.equals(x5));
+        assertFalse(x1.hashCode() == x5.hashCode());
         assertFalse(x1.equals(x6));
+        assertFalse(x1.hashCode() == x6.hashCode());
         assertFalse(x1.equals(x7));
+        assertFalse(x1.hashCode() == x7.hashCode());
         assertFalse(x1.equals(x8));
+        assertFalse(x1.hashCode() == x8.hashCode());
     }
 
     @Test

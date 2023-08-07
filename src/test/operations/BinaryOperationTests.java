@@ -105,6 +105,27 @@ public class BinaryOperationTests {
         } catch (InvalidStatementException e) {
             // expected
         }
+        try {
+            BinaryOperation bothWrong = new BinaryOperation("-((a xor b))",
+                    new ArrayList<>(), new ArrayList<>());
+            fail("should have thrown invalid statement exception");
+        } catch (InvalidStatementException e) {
+            // expected
+        }
+        try {
+            BinaryOperation wrongDeepUnary = new BinaryOperation("~(-(avb))",
+                    new ArrayList<>(), new ArrayList<>());
+            fail("should have thrown invalid statement exception");
+        } catch (InvalidStatementException e) {
+            // expected
+        }
+        try {
+            BinaryOperation wrongDeepStatement = new BinaryOperation("~(~(wrong))",
+                    new ArrayList<>(), new ArrayList<>());
+            fail("should have thrown invalid statement exception");
+        } catch (InvalidStatementException e) {
+            // expected
+        }
     }
 
     @Test
