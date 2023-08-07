@@ -70,6 +70,7 @@ public class ComparisonTests {
     void testOverrideEq() {
         assertTrue(pttA.equals(pttA));
         assertFalse(pttA.equals("not equals"));
+        assertFalse(pttA.equals(null));
     }
 
     @Test

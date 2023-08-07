@@ -33,3 +33,12 @@ of operations showing it to be valid, or an invalidating truth assignment_ **WIP
 - _As a user, I can freely move and edit queries on the canvas_ **WIP**
 - As a user, I can save the current canvas for use after app restart
 - As a user, I can load a canvas of my choosing from a save file
+
+## Instructions for Grader
+- You can generate the first required action related to adding Xs to a Y by clicking "Save to canvas" 
+after doing a query
+- You can generate the second required action related to adding Xs to a Y by clicking "Remove Query"
+under a query in the canvas view
+- You can locate my visual component by...
+- You can save the state of my application by navigating to File -> Save Canvas or pressing Ctrl+S
+- You can reload the state of my application by navigating to File -> Load Canvas or pressing Ctrl+L

@@ -11,9 +11,16 @@ public class VariableTests {
     private Variable a;
     private Variable b;
     private Variable c;
+    private Variable x0;
     private Variable x1;
     private Variable x2;
     private Variable x3;
+    private Variable x4;
+    private Variable x5;
+    private Variable x6;
+    private Variable x7;
+    private Variable x8;
+
 
     @BeforeEach
     void runBefore() {
@@ -21,17 +28,40 @@ public class VariableTests {
         b = new Variable("b", 1);
         c = new Variable("c", 2);
 
+        x0 = new Variable("x", 3);
         x1 = new Variable("x", 3);
         x2 = new Variable("x", 3);
         x3 = new Variable("x", 2);
+        x4 = new Variable("x", 2);
+        x5 = new Variable("y", 3);
+        x6 = new Variable("y", 3);
+        x7 = new Variable("y", 2);
+        x8 = new Variable("y", 2);
     }
 
     @Test
     void testOverrideEq() {
+        x0.setNumVars(4);
+        x1.setNumVars(4);
+        x2.setNumVars(3);
+        x3.setNumVars(4);
+        x4.setNumVars(3);
+        x5.setNumVars(4);
+        x6.setNumVars(3);
+        x7.setNumVars(4);
+        x8.setNumVars(3);
         assertTrue(x1.equals(x1));
-        assertTrue(x1.equals(x2));
         assertFalse(x1.equals("x"));
+        assertFalse(x1.equals(null));
+        assertTrue(x1.equals(x0));
+
+        assertFalse(x1.equals(x2));
         assertFalse(x1.equals(x3));
+        assertFalse(x1.equals(x4));
+        assertFalse(x1.equals(x5));
+        assertFalse(x1.equals(x6));
+        assertFalse(x1.equals(x7));
+        assertFalse(x1.equals(x8));
     }
 
     @Test

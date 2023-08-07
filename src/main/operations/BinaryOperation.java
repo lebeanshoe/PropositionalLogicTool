@@ -224,14 +224,12 @@ public class BinaryOperation implements Proposition {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         BinaryOperation that = (BinaryOperation) o;
-
         return Objects.equals(toString(), that.toString());
     }
 
     @Override
     public int hashCode() {
-        return toString() != null ? toString().hashCode() : 0;
+        return Objects.hash(toString());
     }
 }

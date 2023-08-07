@@ -34,6 +34,7 @@ public class TruthTableTests {
         TruthTable sampTab = new TruthTable(sampBin);
         assertTrue(oneBinTT.equals(sampTab));
         assertFalse(oneBinTT.equals("not equals"));
+        assertFalse(oneBinTT.equals(null));
     }
 
     @Test

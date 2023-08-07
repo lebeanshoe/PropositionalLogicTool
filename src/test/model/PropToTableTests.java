@@ -58,6 +58,7 @@ public class PropToTableTests {
     void testOverrideEq() {
         assertFalse(ptt1.equals(ptt2));
         assertFalse(ptt1.equals("not equals"));
+        assertFalse(ptt1.equals(null));
     }
 
     @Test

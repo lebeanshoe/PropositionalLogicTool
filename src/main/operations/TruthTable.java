@@ -48,6 +48,25 @@ public class TruthTable {
 //        return this.prop;
 //    }
 
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) {
+//            return true;
+//        }
+//        if (o == null || getClass() != o.getClass()) {
+//            return false;
+//        }
+//
+//        TruthTable that = (TruthTable) o;
+//
+//        return Objects.equals(this.colHeads, that.colHeads);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return this.colHeads != null ? this.colHeads.hashCode() : 0;
+//    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -56,14 +75,12 @@ public class TruthTable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         TruthTable that = (TruthTable) o;
-
-        return Objects.equals(this.colHeads, that.colHeads);
+        return Objects.equals(colHeads, that.colHeads);
     }
 
     @Override
     public int hashCode() {
-        return this.colHeads != null ? this.colHeads.hashCode() : 0;
+        return Objects.hash(colHeads);
     }
 }

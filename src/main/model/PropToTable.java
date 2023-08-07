@@ -64,19 +64,12 @@ public class PropToTable implements Query {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         PropToTable that = (PropToTable) o;
-
-        if (!Objects.equals(input, that.input)) {
-            return false;
-        }
-        return Objects.equals(output, that.output);
+        return Objects.equals(input, that.input);
     }
 
     @Override
     public int hashCode() {
-        int result = input != null ? input.hashCode() : 0;
-        result = 31 * result + (output != null ? output.hashCode() : 0);
-        return result;
+        return Objects.hash(input);
     }
 }

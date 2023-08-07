@@ -64,6 +64,7 @@ public class BinaryOperationTests {
         BinaryOperation sample = new BinaryOperation("b v c", new ArrayList<>(), new ArrayList<>());
         assertTrue(sample.equals(simpleBin1));
         assertFalse(sample.equals("not equals"));
+        assertFalse(sample.equals(null));
     }
 
     @Test
@@ -87,6 +88,19 @@ public class BinaryOperationTests {
         }
         try {
             BinaryOperation invalidParens = new BinaryOperation("(avb)", new ArrayList<>(), new ArrayList<>());
+            fail("should have thrown invalid statement exception");
+        } catch (InvalidStatementException e) {
+            // expected
+        }
+        try {
+            BinaryOperation invalidUnaryOp = new BinaryOperation("-a", new ArrayList<>(), new ArrayList<>());
+            fail("should have thrown invalid statement exception");
+        } catch (InvalidStatementException e) {
+            // expected
+        }
+        try {
+            BinaryOperation invalidUnaryStatement = new BinaryOperation("~((avb))",
+                    new ArrayList<>(), new ArrayList<>());
             fail("should have thrown invalid statement exception");
         } catch (InvalidStatementException e) {
             // expected
@@ -246,9 +260,4 @@ public class BinaryOperationTests {
 
         assertEquals("(~x) v y", twoDeep2.getSubProps().get(1).getSubProps().get(0).toString());
     }
-
-//    @Test
-//    void testGetOOP() {
-//
-//    }
 }

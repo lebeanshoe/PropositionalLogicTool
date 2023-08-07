@@ -69,11 +69,11 @@ public class Comparison implements Query {
             return false;
         }
         Comparison that = (Comparison) o;
-        return Objects.equals(inputs, that.inputs) && Objects.equals(outputs, that.outputs);
+        return Objects.equals(inputs, that.inputs);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(inputs, outputs);
+        return Objects.hash(inputs);
     }
 }
