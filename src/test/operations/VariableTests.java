@@ -11,12 +11,27 @@ public class VariableTests {
     private Variable a;
     private Variable b;
     private Variable c;
+    private Variable x1;
+    private Variable x2;
+    private Variable x3;
 
     @BeforeEach
     void runBefore() {
         a = new Variable("a", 0);
         b = new Variable("b", 1);
         c = new Variable("c", 2);
+
+        x1 = new Variable("x", 3);
+        x2 = new Variable("x", 3);
+        x3 = new Variable("x", 2);
+    }
+
+    @Test
+    void testOverrideEq() {
+        assertTrue(x1.equals(x1));
+        assertTrue(x1.equals(x2));
+        assertFalse(x1.equals("x"));
+        assertFalse(x1.equals(x3));
     }
 
     @Test

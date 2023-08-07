@@ -11,11 +11,9 @@ import java.awt.event.*;
 
 import static java.lang.Math.max;
 
+// represents a frame on the canvas to display a query
 public class QueryUI extends JInternalFrame implements ComponentListener {
-    private static final int LOC = 100;
-    private static int queryCount = 0;
     private TruthTableUI printer;
-    private JTable tab;
     private Query theQuery;
     private Canvas cv;
 
@@ -38,10 +36,21 @@ public class QueryUI extends JInternalFrame implements ComponentListener {
         int minWidth = (int) max(dim.getWidth(), 150);
 
         int dimHeight = (int) dim.getHeight() + 100;
-        Dimension newDim = new Dimension(minWidth, dimHeight);
-        setMinimumSize(newDim);
-        setSize(newDim);
+        setSizes(minWidth, dimHeight);
 
+        addIfComparison(q, cp, minWidth, dimHeight);
+
+        cp.add(remove);
+
+        setVisible(true);
+        setLocation(cv.getX(theQuery), cv.getY(theQuery));
+
+        addComponentListener(this);
+    }
+
+    // EFFECTS: if query is comparison, add second truth table, equivalency statement,
+    //          and resizes frame. Otherwise, do nothing.
+    private void addIfComparison(Query q, Container cp, int minWidth, int dimHeight) {
         if (theQuery.getClass() == Comparison.class) {
             JScrollPane tabNew2 = printer.printTable(q.getOutputs().get(1));
             tabNew2.setAlignmentX(CENTER_ALIGNMENT);
@@ -66,18 +75,15 @@ public class QueryUI extends JInternalFrame implements ComponentListener {
 
             int minWidth2 = max(max(minWidth, tabNew2.getMinimumSize().width), 200);
             int dimHeight2 = (int) (dimHeight + tabNew2.getMinimumSize().getHeight() + 0);
-            Dimension newDim2 = new Dimension(minWidth2, dimHeight2);
-            setMinimumSize(newDim2);
-            setSize(newDim2);
+            setSizes(minWidth2, dimHeight2);
         }
+    }
 
-        cp.add(remove);
-
-        setVisible(true);
-        setLocation(cv.getX(theQuery), cv.getY(theQuery));
-
-//        addMouseListener(this);
-        addComponentListener(this);
+    // EFFECTS: sets minimum size and initial size of frame with given dimensions
+    private void setSizes(int width, int height) {
+        Dimension dim = new Dimension(width, height);
+        setMinimumSize(dim);
+        setSize(dim);
     }
 
     @Override
@@ -102,14 +108,18 @@ public class QueryUI extends JInternalFrame implements ComponentListener {
 
     }
 
+    // represents action to be performed when remove button is clicked
     private class RemoveAction extends AbstractAction {
         RemoveAction() {
             super("Remove Query");
         }
 
+        // MODIFIES: this
+        // EFFECTS: removes query from canvas and sets visibility to false
         @Override
         public void actionPerformed(ActionEvent evt) {
-
+            cv.removeQuery(theQuery);
+            setVisible(false);
         }
     }
 

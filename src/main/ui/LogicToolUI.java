@@ -256,7 +256,6 @@ public class LogicToolUI extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent evt) {
-            // from a youtube video for multiple input fields
             JTextField field1 = new JTextField();
             JTextField field2 = new JTextField();
 
@@ -291,14 +290,7 @@ public class LogicToolUI extends JFrame {
         JScrollPane[][] message1 = {
                 {printer.printTable(table1), printer.printTable(table2)}
         };
-//        String message = printer.printTable(table1) + "\n" + printer.printTable(table2);
-//        if (equiv) {
-////            System.out.println("The statements are equivalent.");
-//            message = message + "\n" + "The statements are equivalent.";
-//        } else {
-////            System.out.println("The statements are not equivalent.");
-//            message = message + "\n" + "The statements are not equivalent.";
-//        }
+
         String equivMsg;
         if (equiv) {
             equivMsg = "The statements are equivalent.";
@@ -313,6 +305,10 @@ public class LogicToolUI extends JFrame {
         Query query = new Comparison(operation1, operation2, table1, table2);
         this.history.add(query);
 
+        initCompareDialogue(operation1, operation2, message, query);
+    }
+
+    private void initCompareDialogue(Proposition operation1, Proposition operation2, Object[] message, Query query) {
         Object [] options = {"Save to canvas", "No"};
         int reply = JOptionPane.showOptionDialog(null, message,
                 "Comparison of: " + operation1.toString() + " and " + operation2.toString(),

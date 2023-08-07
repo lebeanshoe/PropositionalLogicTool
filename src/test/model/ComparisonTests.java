@@ -11,7 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 // Code for testing preview() obtained from https://www.baeldung.com/java-testing-system-out-println
 public class ComparisonTests {
@@ -62,6 +62,14 @@ public class ComparisonTests {
         assertEquals(tab3, pttB.getOutputs().get(0));
         assertEquals(prop4, pttB.getInputs().get(1));
         assertEquals(tab4, pttB.getOutputs().get(1));
+
+        assertEquals("Comparison", pttA.getType());
+    }
+
+    @Test
+    void testOverrideEq() {
+        assertTrue(pttA.equals(pttA));
+        assertFalse(pttA.equals("not equals"));
     }
 
     @Test

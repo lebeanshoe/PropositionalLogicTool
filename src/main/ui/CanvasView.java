@@ -36,16 +36,8 @@ public class CanvasView extends JFrame {
     // MODIFIES: this
     // EFFECTS: adds all queries on canvas to desktop
     private void initQueries() {
-        //todo
         for (Query q : cv.getQueries()) {
-//            JInternalFrame queryView = new QueryUI(q, cv, this);
-//            queryView.setLayout(new BorderLayout());
-//            queryView.pack();
-//            queryView.setVisible(true);
-//            desktop.add(queryView);
             QueryUI queryUI = new QueryUI(q, cv, CanvasView.this);
-//            queryUI.addMouseListener(this);
-//            addMouseListener(this);
             desktop.add(queryUI);
         }
     }

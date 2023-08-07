@@ -4,13 +4,13 @@
         {
             "prop2": "(~a) ^ (~b)",
             "prop1": "~(a v b)",
-            "YPos": 170,
-            "XPos": 44,
+            "YPos": 177,
+            "XPos": 26,
             "query": "Comparison"
         },
         {
-            "YPos": 25,
-            "XPos": 236,
+            "YPos": 12,
+            "XPos": 240,
             "query": "PropToTable",
             "proposition": "(a ^ b) v c"
         },
@@ -22,8 +22,8 @@
             "query": "Comparison"
         },
         {
-            "YPos": 294,
-            "XPos": 258,
+            "YPos": 312,
+            "XPos": 271,
             "query": "PropToTable",
             "proposition": "a ^ b"
         }

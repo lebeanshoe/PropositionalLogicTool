@@ -37,6 +37,29 @@ public class CanvasTests {
     }
 
     @Test
+    void testSetters() {
+        testCanvas.addQuery(testQuery, 2, 3);
+        testCanvas.addQuery(testQuery2, 5, 0);
+        testCanvas.setX(testQuery, 20);
+        testCanvas.setY(testQuery, 30);
+        testCanvas.setX(testQuery2, 50);
+        testCanvas.setY(testQuery2, 100);
+        assertEquals(20, testCanvas.getX(testQuery));
+        assertEquals(30, testCanvas.getY(testQuery));
+        assertEquals(50, testCanvas.getX(testQuery2));
+        assertEquals(100, testCanvas.getY(testQuery2));
+
+        testCanvas.setX(testQuery, 25);
+        testCanvas.setY(testQuery, 35);
+        testCanvas.setX(testQuery2, 55);
+        testCanvas.setY(testQuery2, 105);
+        assertEquals(25, testCanvas.getX(testQuery));
+        assertEquals(35, testCanvas.getY(testQuery));
+        assertEquals(55, testCanvas.getX(testQuery2));
+        assertEquals(105, testCanvas.getY(testQuery2));
+    }
+
+    @Test
     void testAddQuery() {
         testCanvas.addQuery(testQuery, 0, 5);
         assertEquals(1, testCanvas.getQueries().size());

@@ -12,6 +12,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 // Code for testing preview() obtained from https://www.baeldung.com/java-testing-system-out-println
 public class PropToTableTests {
@@ -49,6 +50,14 @@ public class PropToTableTests {
 
         assertEquals(prop2, ptt2.getInputs().get(0));
         assertEquals(tab2, ptt2.getOutputs().get(0));
+
+        assertEquals("Truth Table Conversion", ptt1.getType());
+    }
+
+    @Test
+    void testOverrideEq() {
+        assertFalse(ptt1.equals(ptt2));
+        assertFalse(ptt1.equals("not equals"));
     }
 
     @Test

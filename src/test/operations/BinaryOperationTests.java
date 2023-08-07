@@ -63,6 +63,7 @@ public class BinaryOperationTests {
     void testEqualsOverride() {
         BinaryOperation sample = new BinaryOperation("b v c", new ArrayList<>(), new ArrayList<>());
         assertTrue(sample.equals(simpleBin1));
+        assertFalse(sample.equals("not equals"));
     }
 
     @Test
@@ -74,6 +75,22 @@ public class BinaryOperationTests {
         assertEquals("xor", longOperator2.getOperator().toString());
         assertEquals("h", longOperator2.getSubProps().get(0).toString());
         assertEquals("i", longOperator2.getSubProps().get(1).toString());
+    }
+
+    @Test
+    void testInvalidStatement() {
+        try {
+            BinaryOperation zeroLengthString = new BinaryOperation("", new ArrayList<>(), new ArrayList<>());
+            fail("should have thrown invalid statement exception");
+        } catch (InvalidStatementException e) {
+            // expected
+        }
+        try {
+            BinaryOperation invalidParens = new BinaryOperation("(avb)", new ArrayList<>(), new ArrayList<>());
+            fail("should have thrown invalid statement exception");
+        } catch (InvalidStatementException e) {
+            // expected
+        }
     }
 
     @Test

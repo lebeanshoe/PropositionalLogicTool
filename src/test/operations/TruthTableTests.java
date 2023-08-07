@@ -33,6 +33,7 @@ public class TruthTableTests {
         BinaryOperation sampBin = new BinaryOperation("a ^b", new ArrayList<>(), new ArrayList<>());
         TruthTable sampTab = new TruthTable(sampBin);
         assertTrue(oneBinTT.equals(sampTab));
+        assertFalse(oneBinTT.equals("not equals"));
     }
 
     @Test
