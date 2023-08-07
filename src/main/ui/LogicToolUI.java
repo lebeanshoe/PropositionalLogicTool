@@ -21,16 +21,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-need:
-- empty canvas
-- controls:
-    - history view list
- */
 // represents application's main window frame
 public class LogicToolUI extends JFrame {
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 600;
+    private static final int WIDTH = 300;
+    private static final int HEIGHT = 225;
     private static final String JSON_STORE = "./data/canvas.json";
 
     private Canvas cv;
@@ -39,11 +33,11 @@ public class LogicToolUI extends JFrame {
 
     private JDesktopPane desktop;
     private JInternalFrame commands;
-    private JDesktopPane canvasPane;
 
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 
+    // EFFECTS: starts main application window after a splash screen
     public LogicToolUI() {
         cv = new Canvas("User's Canvas");
         history = new ArrayList<>();
@@ -65,6 +59,8 @@ public class LogicToolUI extends JFrame {
         commands.setVisible(true);
         desktop.add(commands);
 
+        doSplash();
+
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         centreOnScreen();
         setVisible(true);
@@ -73,9 +69,46 @@ public class LogicToolUI extends JFrame {
         jsonReader = new JsonReader(JSON_STORE);
     }
 
-    /**
-     * Adds menu bar.
-     */
+    // MODIFIES: this
+    // EFFECTS: displays the splash screen and closes it after a given amount of time
+    private void doSplash() {
+        final SplashScreen splash = SplashScreen.getSplashScreen();
+        if (splash == null) {
+            System.out.println("SplashScreen.getSplashScreen() returned null");
+            return;
+        }
+        Graphics2D g = splash.createGraphics();
+        if (g == null) {
+            System.out.println("g is null");
+            return;
+        }
+
+        for (int i = 0; i < 20; i++) {
+            renderSplashFrame(g, i);
+            splash.update();
+            try {
+                Thread.sleep(90);
+            } catch (InterruptedException e) {
+                //
+            }
+        }
+        splash.close();
+        dispose();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: displays a single frame of the splash screen
+    static void renderSplashFrame(Graphics2D g, int frame) {
+        final String[] comps = {"operations", "queries", "canvas"};
+        g.setComposite(AlphaComposite.Clear);
+        g.fillRect(30,350,200,40);
+        g.setPaintMode();
+        g.setColor(Color.BLACK);
+        g.drawString("Loading " + comps[(frame / 5) % 3] + "...", 30, 360);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: adds menu bar
     private void addMenu() {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
@@ -90,19 +123,13 @@ public class LogicToolUI extends JFrame {
         canvasMenu.setMnemonic('C');
         addMenuItem(canvasMenu, new ViewCanvasAction(), null);
         addMenuItem(canvasMenu, new ViewCanvasListAction(), null);
-//        addMenuItem(canvasMenu, new AddQueryAction(), null);
-//        addMenuItem(canvasMenu, new RemoveQueryAction(), null);
         menuBar.add(canvasMenu);
 
         setJMenuBar(menuBar);
     }
 
-    /**
-     * Adds an item with given handler to the given menu
-     * @param theMenu  menu to which new item is added
-     * @param action   handler for new menu item
-     * @param accelerator    keystroke accelerator for this menu item
-     */
+    // MODIFIES: this
+    // EFFECTS: adds an item with given handler to the given menu
     private void addMenuItem(JMenu theMenu, AbstractAction action, KeyStroke accelerator) {
         JMenuItem menuItem = new JMenuItem(action);
         menuItem.setMnemonic(menuItem.getText().charAt(0));
@@ -110,9 +137,8 @@ public class LogicToolUI extends JFrame {
         theMenu.add(menuItem);
     }
 
-    /**
-     * Helper to add control buttons.
-     */
+    // MODIFIES: this
+    // EFFECTS: adds main query action buttons to main window
     private void addButtonPanel() {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(4,2));
@@ -128,6 +154,7 @@ public class LogicToolUI extends JFrame {
             super("Save Canvas");
         }
 
+        // EFFECTS: saves canvas to json file
         @Override
         public void actionPerformed(ActionEvent evt) {
             try {
@@ -153,6 +180,8 @@ public class LogicToolUI extends JFrame {
             super("Load Canvas");
         }
 
+        // MODIFIES: this
+        // EFFECTS: recreates canvas from saved json file
         @Override
         public void actionPerformed(ActionEvent evt) {
             try {
@@ -170,12 +199,13 @@ public class LogicToolUI extends JFrame {
         }
     }
 
-    // represents action to be taken to view list of canvas queries
+    // represents action to be taken to view list of canvas queries in console
     private class ViewCanvasListAction extends AbstractAction {
         ViewCanvasListAction() {
             super("View Canvas List (console debugging)");
         }
 
+        // EFFECTS: prints out canvas query list in consols
         @Override
         public void actionPerformed(ActionEvent evt) {
             System.out.println("Canvas queries:");
@@ -193,29 +223,24 @@ public class LogicToolUI extends JFrame {
             super("View Canvas");
         }
 
+        // EFFECTS: creates a new window for the canvas view
         @Override
         public void actionPerformed(ActionEvent evt) {
-//            canvasPane = new JDesktopPane();
-//            setContentPane(canvasPane);
-//            setTitle(cv.getName());
-//            setSize(WIDTH, HEIGHT);
-//
-//            setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//            centreOnScreen();
-//            setVisible(true);
             new CanvasView(cv);
         }
     }
 
-    /**
-     * Represents action to be taken when user wants to convert
-     * a propositional logic statement to a truth table
-     */
+
+    // Represents action to be taken when user wants to convert
+    // a propositional logic statement to a truth table
     private class PropToTableAction extends AbstractAction {
         PropToTableAction() {
             super("Truth Table Converter");
         }
 
+        // MODIFIES: this
+        // EFFECTS: prompts user to enter statement to convert, displays result,
+        //          and adds query to canvas if prompted
         @Override
         public void actionPerformed(ActionEvent evt) {
             String statement = JOptionPane.showInputDialog(null,
@@ -245,15 +270,16 @@ public class LogicToolUI extends JFrame {
         }
     }
 
-    /**
-     * Represents action to be taken when user wants to compare
-     * two propositional logic statements
-     */
+    // Represents action to be taken when user wants to compare
+    // two propositional logic statements
     private class ComparisonAction extends AbstractAction {
         ComparisonAction() {
             super("Comparison");
         }
 
+        // MODIFIES: this
+        // EFFECTS: prompts user to enter two statements and returns result,
+        //          adding query to canvas if prompted
         @Override
         public void actionPerformed(ActionEvent evt) {
             JTextField field1 = new JTextField();
@@ -281,7 +307,8 @@ public class LogicToolUI extends JFrame {
     }
 
     // MODIFIES: this
-    // EFFECTS: determines the equivalency of 2 propositions, displays both truth tables, and adds query to history
+    // EFFECTS: determines the equivalency of 2 propositions, displays both truth tables, and adds query to history,
+    //          and adds query to canvas if prompted
     private void equivalency(Proposition operation1, Proposition operation2, TruthTable table1, TruthTable table2) {
         int noCols1 = table1.getAssignments().size();
         int noCols2 = table2.getAssignments().size();
@@ -308,6 +335,9 @@ public class LogicToolUI extends JFrame {
         initCompareDialogue(operation1, operation2, message, query);
     }
 
+    // MODIFIES: this
+    // EFFECTS: creates a JOptionPane dialogue box to accept two propositions to compare and produces result,
+    //          adding query to canvas if prompted
     private void initCompareDialogue(Proposition operation1, Proposition operation2, Object[] message, Query query) {
         Object [] options = {"Save to canvas", "No"};
         int reply = JOptionPane.showOptionDialog(null, message,
@@ -321,26 +351,25 @@ public class LogicToolUI extends JFrame {
         }
     }
 
-    /**
-     * Helper to centre main application window on desktop
-     */
+    // MODIFIES: this
+    // EFFECTS: centres main application window on desktop
     private void centreOnScreen() {
         int width = Toolkit.getDefaultToolkit().getScreenSize().width;
         int height = Toolkit.getDefaultToolkit().getScreenSize().height;
         setLocation((width - getWidth()) / 2, (height - getHeight()) / 2);
     }
 
-    /**
-     * Represents action to be taken when user clicks desktop
-     * to switch focus. (Needed for key handling.)
-     */
+    // Represents action to be taken when user clicks desktop
+    // to switch focus. (Needed for key handling.)
     private class DesktopFocusAction extends MouseAdapter {
+        // EFFECTS: focuses window
         @Override
         public void mouseClicked(MouseEvent e) {
             LogicToolUI.this.requestFocusInWindow();
         }
     }
 
+    // EFFECTS: starts application
     public static void main(String[] args) {
         new LogicToolUI();
     }

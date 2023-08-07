@@ -17,6 +17,7 @@ public class QueryUI extends JInternalFrame implements ComponentListener {
     private Query theQuery;
     private Canvas cv;
 
+    // EFFECTS: constructs a single query frame with appropriate frame size
     public QueryUI(Query q, Canvas cv, Component parent) {
         super(q.getType(), false, false, false, false);
         printer = new TruthTableUI();
@@ -48,6 +49,7 @@ public class QueryUI extends JInternalFrame implements ComponentListener {
         addComponentListener(this);
     }
 
+    // MODIFIES: this
     // EFFECTS: if query is comparison, add second truth table, equivalency statement,
     //          and resizes frame. Otherwise, do nothing.
     private void addIfComparison(Query q, Container cp, int minWidth, int dimHeight) {
@@ -73,12 +75,13 @@ public class QueryUI extends JInternalFrame implements ComponentListener {
             equivField.setEditable(false);
             cp.add(equivField);
 
-            int minWidth2 = max(max(minWidth, tabNew2.getMinimumSize().width), 200);
+            int minWidth2 = max(max(minWidth, tabNew2.getMinimumSize().width), 250);
             int dimHeight2 = (int) (dimHeight + tabNew2.getMinimumSize().getHeight() + 0);
             setSizes(minWidth2, dimHeight2);
         }
     }
 
+    // MODIFIES: this
     // EFFECTS: sets minimum size and initial size of frame with given dimensions
     private void setSizes(int width, int height) {
         Dimension dim = new Dimension(width, height);
@@ -86,28 +89,32 @@ public class QueryUI extends JInternalFrame implements ComponentListener {
         setSize(dim);
     }
 
+    // does nothing, necessary override to allow componentMoved detection
     @Override
     public void componentResized(ComponentEvent e) {
 
     }
 
-    // MODIFIES: cv
+    // MODIFIES: this
     // EFFECTS: updates position of theQuery when the frame is moved
     @Override
     public void componentMoved(ComponentEvent e) {
         updateLocation();
     }
 
+    // does nothing, necessary override to allow componentMoved detection
     @Override
     public void componentShown(ComponentEvent e) {
 
     }
 
+    // does nothing, necessary override to allow componentMoved detection
     @Override
     public void componentHidden(ComponentEvent e) {
 
     }
 
+    // MODIFIES: this
     // represents action to be performed when remove button is clicked
     private class RemoveAction extends AbstractAction {
         RemoveAction() {
@@ -123,7 +130,7 @@ public class QueryUI extends JInternalFrame implements ComponentListener {
         }
     }
 
-    // MODIFIES: cv
+    // MODIFIES: this
     // EFFECTS: updates theQuery's position based on current UI position
     public void updateLocation() {
         cv.setX(theQuery, getX());

@@ -4,10 +4,6 @@ import operations.Proposition;
 import operations.TruthTable;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableColumnModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;

@@ -21,28 +21,32 @@ public class Comparison implements Query {
         this.outputs.add(output2);
     }
 
+    // EFFECTS: returns the two inputs of the comparison
     @Override
     public List<Proposition> getInputs() {
         return this.inputs;
     }
 
+    // EFFECTS: returns the two outputs of the comparison
     @Override
     public List<TruthTable> getOutputs() {
         return this.outputs;
     }
 
+    // EFFECTS: returns "Comparison"
     @Override
     public String getType() {
         return "Comparison";
     }
 
-    @Override
     // EFFECTS: prints out the inputs of this query
+    @Override
     public void preview() {
         System.out.println("Comparison between " + this.inputs.get(0).toString()
                 + " and " + this.inputs.get(1).toString());
     }
 
+    // EFFECTS: writes query to canvas, then writes x and y as its position
     @Override
     public JSONObject toJson(int x, int y) {
         JSONObject json = toJson();
@@ -51,6 +55,7 @@ public class Comparison implements Query {
         return json;
     }
 
+    // EFFECTS: writes query to canvas
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();

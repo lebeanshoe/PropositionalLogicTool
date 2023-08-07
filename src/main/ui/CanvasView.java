@@ -6,16 +6,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
+// represents a canvas with its queries displayed within it
 public class CanvasView extends JFrame {
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 600;
+    private static final int WIDTH = 1080;
+    private static final int HEIGHT = 720;
 
     private model.Canvas cv;
 
     private JDesktopPane desktop;
 
+    // EFFECTS: constructs a canvas desktop frame with queries displayed within
     public CanvasView(model.Canvas cv) {
         this.cv = cv;
 
@@ -42,20 +43,20 @@ public class CanvasView extends JFrame {
         }
     }
 
-    /**
-     * Helper to centre main application window on desktop
-     */
+    // MODIFIES: this
+    // EFFECTS: centres the canvas view window on desktop
     private void centreOnScreen() {
         int width = Toolkit.getDefaultToolkit().getScreenSize().width;
         int height = Toolkit.getDefaultToolkit().getScreenSize().height;
         setLocation((width - getWidth()) / 2, (height - getHeight()) / 2);
     }
 
-    /**
-     * Represents action to be taken when user clicks desktop
-     * to switch focus. (Needed for key handling.)
-     */
+
+     // Represents action to be taken when user clicks desktop
+     // to switch focus. (Needed for key handling.)
     private class DesktopFocusAction extends MouseAdapter {
+        // MODIFIES: this
+        // EFFECTS: focuses canvas view window
         @Override
         public void mouseClicked(MouseEvent e) {
             requestFocusInWindow();

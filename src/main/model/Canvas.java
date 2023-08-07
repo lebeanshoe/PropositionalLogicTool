@@ -51,10 +51,14 @@ public class Canvas implements Writable {
         return this.hashQueries.get(query).get(1);
     }
 
+    // MODIFIES: this
+    // EFFECTS: changes the X position of query to x
     public void setX(Query query, int x) {
         this.hashQueries.get(query).set(0, x);
     }
 
+    // MODIFIES: this
+    // EFFECTS: changes the Y position of query to y
     public void setY(Query query, int y) {
         this.hashQueries.get(query).set(1, y);
     }
@@ -63,6 +67,7 @@ public class Canvas implements Writable {
         return this.name;
     }
 
+    // EFFECTS: writes canvas to json file
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();

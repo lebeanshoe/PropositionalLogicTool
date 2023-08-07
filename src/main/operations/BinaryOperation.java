@@ -37,6 +37,33 @@ public class BinaryOperation implements Proposition {
         }
     }
 
+    // getters
+
+    @Override
+    public List<Variable> getVars() {
+        return this.vars;
+    }
+
+    @Override
+    public List<Proposition> getSubProps() {
+        return this.subProps;
+    }
+
+    @Override
+    public int getNumVar() {
+        return this.vars.size();
+    }
+
+    @Override
+    public Operator getOperator() {
+        return this.operator;
+    }
+
+    @Override
+    public List<Proposition> getOOP() {
+        return this.operations;
+    }
+
     // REQUIRES: operator is valid syntax for an operator object
     // EFFECTS: returns operator matching string
     public Operator chooseOperator(String operator) {
@@ -189,31 +216,6 @@ public class BinaryOperation implements Proposition {
             this.subProps.add(localBinOp);
             this.operations.add(localBinOp);
         }
-    }
-
-    @Override
-    public List<Variable> getVars() {
-        return this.vars;
-    }
-
-    @Override
-    public List<Proposition> getSubProps() {
-        return this.subProps;
-    }
-
-    @Override
-    public int getNumVar() {
-        return this.vars.size();
-    }
-
-    @Override
-    public Operator getOperator() {
-        return this.operator;
-    }
-
-    @Override
-    public List<Proposition> getOOP() {
-        return this.operations;
     }
 
     @Override

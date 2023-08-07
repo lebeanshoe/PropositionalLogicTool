@@ -19,27 +19,31 @@ public class PropToTable implements Query {
         this.output.add(output);
     }
 
+    // EFFECTS: returns the input of this conversion
     @Override
     public List<Proposition> getInputs() {
         return this.input;
     }
 
+    // EFFECTS: returns the output of this conversion
     @Override
     public List<TruthTable> getOutputs() {
         return this.output;
     }
 
+    // EFFECTS: returns "Truth Table Conversion"
     @Override
     public String getType() {
         return "Truth Table Conversion";
     }
 
-    @Override
     // EFFECTS: prints out the input of this query
+    @Override
     public void preview() {
         System.out.println("Conversion to truth table: " + this.input.get(0).toString());
     }
 
+    // EFFECTS: writes query to canvas, then writes x and y as its position
     @Override
     public JSONObject toJson(int x, int y) {
         JSONObject json = toJson();
@@ -48,6 +52,7 @@ public class PropToTable implements Query {
         return json;
     }
 
+    // EFFECTS: writes query to canvas
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
