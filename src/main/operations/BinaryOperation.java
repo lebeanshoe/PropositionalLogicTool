@@ -218,6 +218,7 @@ public class BinaryOperation implements Proposition {
         }
     }
 
+    // EFFECTS: returns true if string representation of this is same as o's
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -230,6 +231,7 @@ public class BinaryOperation implements Proposition {
         return Objects.equals(toString(), that.toString());
     }
 
+    // EFFECTS: returns hashCode
     @Override
     public int hashCode() {
         return Objects.hash(toString());

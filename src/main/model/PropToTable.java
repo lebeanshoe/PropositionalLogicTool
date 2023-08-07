@@ -61,6 +61,7 @@ public class PropToTable implements Query {
         return json;
     }
 
+    // EFFECTS: returns true if this has same input as o
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -73,6 +74,7 @@ public class PropToTable implements Query {
         return Objects.equals(input, that.input);
     }
 
+    // EFFECTS: returns hashCode
     @Override
     public int hashCode() {
         return Objects.hash(input);

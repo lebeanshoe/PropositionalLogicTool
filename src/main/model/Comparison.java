@@ -65,6 +65,7 @@ public class Comparison implements Query {
         return json;
     }
 
+    // EFFECTS: returns true if this has same inputs as o
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -77,6 +78,7 @@ public class Comparison implements Query {
         return Objects.equals(inputs, that.inputs);
     }
 
+    // EFFECTS: returns hashCode
     @Override
     public int hashCode() {
         return Objects.hash(inputs);

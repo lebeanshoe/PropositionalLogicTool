@@ -28,6 +28,7 @@ public class TruthTable {
         return this.assigns;
     }
 
+    // EFFECTS: returns true if this has same column headers as o
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -40,6 +41,7 @@ public class TruthTable {
         return Objects.equals(colHeads, that.colHeads);
     }
 
+    // EFFECTS: returns hashCode
     @Override
     public int hashCode() {
         return Objects.hash(colHeads);

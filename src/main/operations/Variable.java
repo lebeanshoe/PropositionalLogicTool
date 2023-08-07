@@ -54,6 +54,8 @@ public class Variable implements Proposition {
         return this.var;
     }
 
+    // EFFECTS: returns true if this and o have the same variable letter, number of variables in its proposition,
+    //          and its variable number
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -66,6 +68,7 @@ public class Variable implements Proposition {
         return numVars == variable.numVars && varNum == variable.varNum && Objects.equals(var, variable.var);
     }
 
+    // EFFECTS: returns hashCode
     @Override
     public int hashCode() {
         return Objects.hash(var, numVars, varNum);
