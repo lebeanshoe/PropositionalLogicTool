@@ -35,6 +35,7 @@ public class LogicToolUI extends JFrame {
 
     private Canvas cv;
     private List<Query> history;
+    private TruthTableUI printer;
 
     private JDesktopPane desktop;
     private JInternalFrame commands;
@@ -46,6 +47,7 @@ public class LogicToolUI extends JFrame {
     public LogicToolUI() {
         cv = new Canvas("User's Canvas");
         history = new ArrayList<>();
+        printer = new TruthTableUI();
 
         desktop = new JDesktopPane();
         desktop.addMouseListener(new DesktopFocusAction());
@@ -118,46 +120,6 @@ public class LogicToolUI extends JFrame {
         buttonPanel.add(new JButton(new ComparisonAction()));
 
         commands.add(buttonPanel, BorderLayout.WEST);
-    }
-
-    // EFFECTS: prints out given truth table with columns headers as variables and operations.
-    private String printTable(TruthTable tab) {
-        List<Proposition> colHeads = tab.getColumnHeaders();
-        List<List<Boolean>> assigns = tab.getAssignments();
-        int noCol = colHeads.size();
-        int assignLength = assigns.get(0).size();
-        int i = 0;
-        String res = "";
-        while (i < noCol - 1) {
-            String str = colHeads.get(i).toString();
-//            System.out.print(str + "\t");
-            res = res + str + "   ";
-            i++;
-        }
-//        System.out.print(colHeads.get(noCol - 1) + "\n");
-        res = res + colHeads.get(noCol - 1) + "\n";
-
-        for (int k = 0; k < assignLength; k++) {
-            int j = 0;
-            while (j < noCol - 1) {
-                int val = boolToInt(assigns.get(j).get(k));
-//                System.out.print(val + "\t");
-                res = res + val + "   ";
-                j++;
-            }
-//            System.out.print(boolToInt(assigns.get(noCol - 1).get(k)) + "\n");
-            res = res + boolToInt(assigns.get(noCol - 1).get(k)) + "\n";
-        }
-        System.out.println(res); // TODO - shows console output of truth table
-        return res;
-    }
-
-    // EFFECTS: converts false -> 0 and true -> 1
-    private int boolToInt(boolean bool) {
-        if (bool) {
-            return 1;
-        }
-        return 0;
     }
 
     // represents action to be taken to save canvas
@@ -233,7 +195,15 @@ public class LogicToolUI extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent evt) {
-            canvasPane = new JDesktopPane(); // todo - delete - test commit to make sure back on main
+//            canvasPane = new JDesktopPane();
+//            setContentPane(canvasPane);
+//            setTitle(cv.getName());
+//            setSize(WIDTH, HEIGHT);
+//
+//            setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//            centreOnScreen();
+//            setVisible(true);
+            new CanvasView(cv);
         }
     }
 
@@ -259,7 +229,7 @@ public class LogicToolUI extends JFrame {
                 history.add(query);
 
                 Object [] options = {"Save to canvas", "No"};
-                int reply = JOptionPane.showOptionDialog(null, printTable(truTab),
+                int reply = JOptionPane.showOptionDialog(null, printer.printTable(truTab),
                         "Truth Table of: " + binOp.toString(), JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE, null, options, null);
                 if (reply == 0) {
@@ -318,14 +288,27 @@ public class LogicToolUI extends JFrame {
         int noCols2 = table2.getAssignments().size();
 
         boolean equiv = table1.getAssignments().get(noCols1 - 1).equals(table2.getAssignments().get(noCols2 - 1));
-        String message = printTable(table1) + "\n" + printTable(table2);
+        JScrollPane[][] message1 = {
+                {printer.printTable(table1), printer.printTable(table2)}
+        };
+//        String message = printer.printTable(table1) + "\n" + printer.printTable(table2);
+//        if (equiv) {
+////            System.out.println("The statements are equivalent.");
+//            message = message + "\n" + "The statements are equivalent.";
+//        } else {
+////            System.out.println("The statements are not equivalent.");
+//            message = message + "\n" + "The statements are not equivalent.";
+//        }
+        String equivMsg;
         if (equiv) {
-//            System.out.println("The statements are equivalent.");
-            message = message + "\n" + "The statements are equivalent.";
+            equivMsg = "The statements are equivalent.";
         } else {
-//            System.out.println("The statements are not equivalent.");
-            message = message + "\n" + "The statements are not equivalent.";
+            equivMsg = "The statements are not equivalent.";
         }
+        Object[] message = {
+                message1,
+                equivMsg
+        };
 
         Query query = new Comparison(operation1, operation2, table1, table2);
         this.history.add(query);

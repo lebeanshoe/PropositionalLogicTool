@@ -1,4 +1,4 @@
-package clideprecated;
+package ui.clideprecated;
 
 import exceptions.InvalidStatementException;
 import model.*;

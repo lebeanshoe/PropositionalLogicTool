@@ -1,0 +1,17 @@
+{
+  "name": "Canvas for ui testing",
+  "queries": [
+    {
+      "YPos": 26,
+      "XPos": 25,
+      "query": "PropToTable",
+      "proposition": "a ^ b"
+    },
+    {
+      "YPos": 30,
+      "XPos": 35,
+      "query": "PropToTable",
+      "proposition": "a xor b"
+    }
+  ]
+}

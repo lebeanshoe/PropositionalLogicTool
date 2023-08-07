@@ -2,30 +2,30 @@
     "name": "User's Canvas",
     "queries": [
         {
-            "YPos": 0,
-            "XPos": 0,
-            "query": "PropToTable",
-            "proposition": "a ^ b"
-        },
-        {
             "prop2": "(~a) ^ (~b)",
             "prop1": "~(a v b)",
-            "YPos": 0,
-            "XPos": 0,
+            "YPos": 349,
+            "XPos": 554,
             "query": "Comparison"
+        },
+        {
+            "YPos": 372,
+            "XPos": 44,
+            "query": "PropToTable",
+            "proposition": "(a ^ b) v c"
         },
         {
             "prop2": "a ^ (b v c)",
             "prop1": "(a ^ b) v (a ^ c)",
-            "YPos": 0,
-            "XPos": 0,
+            "YPos": 62,
+            "XPos": 327,
             "query": "Comparison"
         },
         {
-            "YPos": 0,
-            "XPos": 0,
+            "YPos": 51,
+            "XPos": 45,
             "query": "PropToTable",
-            "proposition": "(a ^ b) v c"
+            "proposition": "a ^ b"
         }
     ]
 }

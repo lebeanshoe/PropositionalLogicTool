@@ -51,6 +51,14 @@ public class Canvas implements Writable {
         return this.hashQueries.get(query).get(1);
     }
 
+    public void setX(Query query, int x) {
+        this.hashQueries.get(query).set(0, x);
+    }
+
+    public void setY(Query query, int y) {
+        this.hashQueries.get(query).set(1, y);
+    }
+
     public String getName() {
         return this.name;
     }
