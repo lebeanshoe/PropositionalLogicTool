@@ -1005,7 +1005,7 @@ removing queries from the Canvas when an internal frame is removed.
 * Wed Aug 09 03:02:40 PDT 2023
 * X position of "Truth Table Conversion" updated to 8.
 * Wed Aug 09 03:02:40 PDT 2023
-* Y position of "Truth Table Conversion" updated to 281.
+* Y position of "Truth Table Conversion" updated to 281.\
 [jump to sample log](#phase-4-task-2)
 
 ### Appendix B
@@ -1649,7 +1649,7 @@ removing queries from the Canvas when an internal frame is removed.
 * Wed Aug 09 03:03:14 PDT 2023
 * X position of "Comparison" updated to 249.
 * Wed Aug 09 03:03:14 PDT 2023
-* Y position of "Comparison" updated to 358.
+* Y position of "Comparison" updated to 358.\
 [jump to sample log](#phase-4-task-2)
 
 ### Appendix C
@@ -2665,5 +2665,5 @@ removing queries from the Canvas when an internal frame is removed.
 * Wed Aug 09 03:04:23 PDT 2023
 * X position of "Comparison" updated to 637.
 * Wed Aug 09 03:04:23 PDT 2023
-* Y position of "Comparison" updated to 97.
+* Y position of "Comparison" updated to 97.\
 [jump to sample log](#phase-4-task-2)
