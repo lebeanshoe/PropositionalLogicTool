@@ -72,6 +72,7 @@ _Note: Many log entries of query positions being updated have been moved to appe
 * Wed Aug 09 03:02:40 PDT 2023
 * Y position of "Truth Table Conversion" updated to 1.
 * _[\<\<appendix A\>\>](#appendix-a)_
+* Wed Aug 09 03:02:40 PDT 2023
 * X position of "Truth Table Conversion" updated to 7.
 * Wed Aug 09 03:02:40 PDT 2023
 * Y position of "Truth Table Conversion" updated to 281.
@@ -83,8 +84,8 @@ _Note: Many log entries of query positions being updated have been moved to appe
 * X position of "Comparison" updated to 3.
 * Wed Aug 09 03:03:12 PDT 2023
 * Y position of "Comparison" updated to 4.
-* Wed Aug 09 03:03:12 PDT 2023
 * [_\<\<appendix B\>\>_](#appendix-b)
+* Wed Aug 09 03:03:14 PDT 2023
 * X position of "Comparison" updated to 249.
 * Wed Aug 09 03:03:14 PDT 2023
 * Y position of "Comparison" updated to 357.
@@ -96,8 +97,8 @@ _Note: Many log entries of query positions being updated have been moved to appe
 * X position of "Comparison" updated to 4.
 * Wed Aug 09 03:04:22 PDT 2023
 * Y position of "Comparison" updated to 0.
-* Wed Aug 09 03:04:22 PDT 2023
 * [_\<\<appendix C\>\>_](#appendix-c)
+* Wed Aug 09 03:04:23 PDT 2023
 * X position of "Comparison" updated to 638.
 * Wed Aug 09 03:04:23 PDT 2023
 * Y position of "Comparison" updated to 97.
@@ -1005,11 +1006,11 @@ removing queries from the Canvas when an internal frame is removed.
 * X position of "Truth Table Conversion" updated to 8.
 * Wed Aug 09 03:02:40 PDT 2023
 * Y position of "Truth Table Conversion" updated to 281.
-* Wed Aug 09 03:02:40 PDT 2023
 [jump to sample log](#phase-4-task-2)
 
 ### Appendix B
 [jump to sample log](#phase-4-task-2)
+* Wed Aug 09 03:03:12 PDT 2023
 * X position of "Comparison" updated to 4.
 * Wed Aug 09 03:03:12 PDT 2023
 * Y position of "Comparison" updated to 6.
@@ -1649,11 +1650,11 @@ removing queries from the Canvas when an internal frame is removed.
 * X position of "Comparison" updated to 249.
 * Wed Aug 09 03:03:14 PDT 2023
 * Y position of "Comparison" updated to 358.
-* Wed Aug 09 03:03:14 PDT 2023
 [jump to sample log](#phase-4-task-2)
 
 ### Appendix C
 [jump to sample log](#phase-4-task-2)
+* Wed Aug 09 03:04:22 PDT 2023
 * X position of "Comparison" updated to 5.
 * Wed Aug 09 03:04:22 PDT 2023
 * Y position of "Comparison" updated to 0.
@@ -2665,5 +2666,4 @@ removing queries from the Canvas when an internal frame is removed.
 * X position of "Comparison" updated to 637.
 * Wed Aug 09 03:04:23 PDT 2023
 * Y position of "Comparison" updated to 97.
-* Wed Aug 09 03:04:23 PDT 2023
 [jump to sample log](#phase-4-task-2)
