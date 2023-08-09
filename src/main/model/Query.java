@@ -1,9 +1,9 @@
 package model;
 
-import operations.Proposition;
-import operations.TruthTable;
+import model.operations.Proposition;
+import model.operations.TruthTable;
 import org.json.JSONObject;
-import persistence.Writable;
+import model.persistence.Writable;
 
 import java.util.List;
 
@@ -21,6 +21,12 @@ public interface Query extends Writable {
 
     // EFFECTS: prints a preview of the query input(s)
     void preview();
+
+    // EFFECTS: logs the construction of a new query
+    void logNewQuery();
+
+    // EFFECTS: logs the adding/removal of a query from the canvas
+    void logAddRemoveCanvas(String name, String action);
 
     // EFFECTS: returns this as a Json object with coordinates x,y
     JSONObject toJson(int x, int y);

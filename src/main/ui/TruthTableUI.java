@@ -1,7 +1,7 @@
 package ui;
 
-import operations.Proposition;
-import operations.TruthTable;
+import model.operations.Proposition;
+import model.operations.TruthTable;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,31 +1,29 @@
 package ui;
 
-import exceptions.InvalidStatementException;
+import model.exceptions.InvalidStatementException;
+import model.*;
 import model.Canvas;
-import model.Comparison;
-import model.PropToTable;
-import model.Query;
-import operations.BinaryOperation;
-import operations.Proposition;
-import operations.TruthTable;
-import persistence.JsonReader;
-import persistence.JsonWriter;
+import model.logging.Event;
+import model.logging.EventLog;
+import model.operations.BinaryOperation;
+import model.operations.Proposition;
+import model.operations.TruthTable;
+import model.persistence.JsonReader;
+import model.persistence.JsonWriter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 // represents application's main window frame
-public class LogicToolUI extends JFrame {
+public class LogicToolUI extends JFrame implements WindowListener {
     private static final int WIDTH = 300;
     private static final int HEIGHT = 225;
-    private static final String JSON_STORE = "./data/canvas.json";
+    private static final String JSON_STORE = "./data/testCanvas.json";
 
     private Canvas cv;
     private List<Query> history;
@@ -65,6 +63,8 @@ public class LogicToolUI extends JFrame {
         centreOnScreen();
         setVisible(true);
 
+        addWindowListener(this);
+
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
     }
@@ -83,7 +83,7 @@ public class LogicToolUI extends JFrame {
             return;
         }
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 5; i++) {
             renderSplashFrame(g, i);
             splash.update();
             try {
@@ -148,6 +148,55 @@ public class LogicToolUI extends JFrame {
         commands.add(buttonPanel, BorderLayout.WEST);
     }
 
+    // EFFECTS: does nothing, part of WindowListener which was implemented for the windowClosing detection
+    @Override
+    public void windowOpened(WindowEvent e) {
+
+    }
+
+    // EFFECTS: prints out each event in event log to console when the program is about to terminate
+    @Override
+    public void windowClosing(WindowEvent e) {
+        printLog(EventLog.getInstance());
+    }
+
+    // EFFECTS: does nothing, part of WindowListener which was implemented for the windowClosing detection
+    @Override
+    public void windowClosed(WindowEvent e) {
+
+    }
+
+    // EFFECTS: does nothing, part of WindowListener which was implemented for the windowClosing detection
+    @Override
+    public void windowIconified(WindowEvent e) {
+
+    }
+
+    // EFFECTS: does nothing, part of WindowListener which was implemented for the windowClosing detection
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+
+    }
+
+    // EFFECTS: does nothing, part of WindowListener which was implemented for the windowClosing detection
+    @Override
+    public void windowActivated(WindowEvent e) {
+
+    }
+
+    // EFFECTS: does nothing, part of WindowListener which was implemented for the windowClosing detection
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+
+    }
+
+    // EFFECTS: prints out each event in event log to console
+    public void printLog(EventLog el) {
+        for (Event next : el) {
+            System.out.println(next.toString());
+        }
+    }
+
     // represents action to be taken to save canvas
     private class SaveAction extends AbstractAction {
         SaveAction() {
@@ -162,12 +211,12 @@ public class LogicToolUI extends JFrame {
                 jsonWriter.write(cv);
                 jsonWriter.close();
                 String message = "Saved " + cv.getName() + " to " + JSON_STORE;
-                System.out.println(message);
+//                System.out.println(message);
                 JOptionPane.showMessageDialog(null, message, "Canvas Saved",
                         JOptionPane.PLAIN_MESSAGE);
             } catch (FileNotFoundException e) {
                 String message = "Unable to write to file: " + JSON_STORE;
-                System.out.println(message);
+//                System.out.println(message);
                 JOptionPane.showMessageDialog(null, message, "Save Fail",
                         JOptionPane.ERROR_MESSAGE);
             }
@@ -187,12 +236,12 @@ public class LogicToolUI extends JFrame {
             try {
                 cv = jsonReader.read();
                 String message = "Loaded " + cv.getName() + " from " + JSON_STORE;
-                System.out.println(message);
+//                System.out.println(message);
                 JOptionPane.showMessageDialog(null, message, "Canvas Loaded",
                         JOptionPane.PLAIN_MESSAGE);
             } catch (IOException e) {
                 String message = "Unable to read from file: " + JSON_STORE;
-                System.out.println(message);
+//                System.out.println(message);
                 JOptionPane.showMessageDialog(null, message, "Load Fail",
                         JOptionPane.ERROR_MESSAGE);
             }
@@ -247,25 +296,27 @@ public class LogicToolUI extends JFrame {
                     "Enter propositional logic statement",
                     "Enter propositional logic statement",
                     JOptionPane.QUESTION_MESSAGE);
-            try {
-                BinaryOperation binOp = new BinaryOperation(statement, new ArrayList<>(), new ArrayList<>());
-                TruthTable truTab = new TruthTable(binOp);
-                Query query = new PropToTable(binOp, truTab);
-                history.add(query);
+            if (!(statement == null)) {
+                try {
+                    BinaryOperation binOp = new BinaryOperation(statement, new ArrayList<>(), new ArrayList<>());
+                    TruthTable truTab = new TruthTable(binOp);
+                    Query query = new PropToTable(binOp, truTab);
+                    history.add(query);
 
-                Object [] options = {"Save to canvas", "No"};
-                int reply = JOptionPane.showOptionDialog(null, printer.printTable(truTab),
-                        "Truth Table of: " + binOp.toString(), JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE, null, options, null);
-                if (reply == 0) {
-                    System.out.println("save to canvas: " + reply);
-                    cv.addQuery(query, 0, 0);
-                } else {
-                    System.out.println("don't save: " + reply);
+                    Object[] options = {"Save to canvas", "No"};
+                    int reply = JOptionPane.showOptionDialog(null, printer.printTable(truTab),
+                            "Truth Table of: " + binOp.toString(), JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE, null, options, null);
+                    if (reply == 0) {
+//                    System.out.println("save to canvas: " + reply);
+                        cv.addQuery(query, 0, 0);
+                    } else {
+//                    System.out.println("don't save: " + reply);
+                    }
+                } catch (InvalidStatementException e) {
+                    JOptionPane.showMessageDialog(null, "Invalid statement!", "System Error",
+                            JOptionPane.ERROR_MESSAGE);
                 }
-            } catch (InvalidStatementException e) {
-                JOptionPane.showMessageDialog(null, "Invalid statement!", "System Error",
-                        JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -293,15 +344,18 @@ public class LogicToolUI extends JFrame {
             JOptionPane.showConfirmDialog(null, fields, "Comparison", JOptionPane.OK_CANCEL_OPTION);
             String statement1 = field1.getText();
             String statement2 = field2.getText();
-            try {
-                BinaryOperation binOp1 = new BinaryOperation(statement1, new ArrayList<>(), new ArrayList<>());
-                BinaryOperation binOp2 = new BinaryOperation(statement2, new ArrayList<>(), new ArrayList<>());
-                TruthTable tab1 = new TruthTable(binOp1);
-                TruthTable tab2 = new TruthTable(binOp2);
-                equivalency(binOp1, binOp2, tab1, tab2);
-            } catch (InvalidStatementException e) {
-                JOptionPane.showMessageDialog(null, "Invalid statement!", "System Error",
-                        JOptionPane.ERROR_MESSAGE);
+            if (!(statement1 == null) && !(statement2 == null)
+                    && !(statement1.equals("")) && !(statement2.equals(""))) {
+                try {
+                    BinaryOperation binOp1 = new BinaryOperation(statement1, new ArrayList<>(), new ArrayList<>());
+                    BinaryOperation binOp2 = new BinaryOperation(statement2, new ArrayList<>(), new ArrayList<>());
+                    TruthTable tab1 = new TruthTable(binOp1);
+                    TruthTable tab2 = new TruthTable(binOp2);
+                    equivalency(binOp1, binOp2, tab1, tab2);
+                } catch (InvalidStatementException e) {
+                    JOptionPane.showMessageDialog(null, "Invalid statement!", "System Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
     }
@@ -344,10 +398,10 @@ public class LogicToolUI extends JFrame {
                 "Comparison of: " + operation1.toString() + " and " + operation2.toString(),
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
         if (reply == 0) {
-            System.out.println("save to canvas: " + reply);
+//            System.out.println("save to canvas: " + reply);
             cv.addQuery(query, 0, 0);
         } else {
-            System.out.println("don't save: " + reply);
+//            System.out.println("don't save: " + reply);
         }
     }
 

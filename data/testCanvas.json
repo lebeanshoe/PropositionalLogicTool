@@ -1,17 +1,25 @@
 {
-  "name": "Canvas for ui testing",
-  "queries": [
-    {
-      "YPos": 26,
-      "XPos": 25,
-      "query": "PropToTable",
-      "proposition": "a ^ b"
-    },
-    {
-      "YPos": 30,
-      "XPos": 35,
-      "query": "PropToTable",
-      "proposition": "a xor b"
-    }
-  ]
+    "name": "Canvas for ui testing",
+    "queries": [
+        {
+            "prop2": "a xor b",
+            "prop1": "a v b",
+            "YPos": 357,
+            "XPos": 249,
+            "query": "Comparison"
+        },
+        {
+            "YPos": 281,
+            "XPos": 7,
+            "query": "PropToTable",
+            "proposition": "a v b"
+        },
+        {
+            "prop2": "(p v q) ^ (p v r)",
+            "prop1": "p v (q ^ r)",
+            "YPos": 97,
+            "XPos": 638,
+            "query": "Comparison"
+        }
+    ]
 }

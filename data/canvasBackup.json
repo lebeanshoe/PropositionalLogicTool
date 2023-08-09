@@ -1,0 +1,38 @@
+{
+    "name": "User's Canvas",
+    "queries": [
+        {
+            "prop2": "(a -> b) <-> (a ^ c)",
+            "prop1": "(a xor b) ^ (a v c)",
+            "YPos": 223,
+            "XPos": 709,
+            "query": "Comparison"
+        },
+        {
+            "prop2": "a ^ (b v c)",
+            "prop1": "(a ^ b) v (a ^ c)",
+            "YPos": 218,
+            "XPos": 362,
+            "query": "Comparison"
+        },
+        {
+            "YPos": 42,
+            "XPos": 97,
+            "query": "PropToTable",
+            "proposition": "(a ^ b) v c"
+        },
+        {
+            "YPos": 26,
+            "XPos": 423,
+            "query": "PropToTable",
+            "proposition": "a ^ b"
+        },
+        {
+            "prop2": "(~a) ^ (~b)",
+            "prop1": "~(a v b)",
+            "YPos": 377,
+            "XPos": 85,
+            "query": "Comparison"
+        }
+    ]
+}

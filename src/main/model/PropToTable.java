@@ -1,7 +1,9 @@
 package model;
 
-import operations.Proposition;
-import operations.TruthTable;
+import model.logging.Event;
+import model.logging.EventLog;
+import model.operations.Proposition;
+import model.operations.TruthTable;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ public class PropToTable implements Query {
     public PropToTable(Proposition input, TruthTable output) {
         this.input.add(input);
         this.output.add(output);
+        logNewQuery();
     }
 
     // EFFECTS: returns the input of this conversion
@@ -41,6 +44,21 @@ public class PropToTable implements Query {
     @Override
     public void preview() {
         System.out.println("Conversion to truth table: " + this.input.get(0).toString());
+    }
+
+    // EFFECTS: logs the addition/removal of a PropToTable query to canvas
+    @Override
+    public void logAddRemoveCanvas(String name, String action) {
+        String binOp1 = getInputs().get(0).toString();
+        EventLog.getInstance().logEvent(new Event("Truth table conversion: \""
+                + binOp1 + "\" " + action + " " + name + "."));
+    }
+
+    // EFFECTS: logs the construction of a PropToTable query
+    @Override
+    public void logNewQuery() {
+        String binOp1 = getInputs().get(0).toString();
+        EventLog.getInstance().logEvent(new Event("Truth table conversion: \"" + binOp1 + "\" created."));
     }
 
     // EFFECTS: writes query to canvas, then writes x and y as its position

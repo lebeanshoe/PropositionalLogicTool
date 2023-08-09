@@ -3,7 +3,7 @@ package ui;
 import model.Canvas;
 import model.Comparison;
 import model.Query;
-import operations.TruthTable;
+import model.operations.TruthTable;
 
 import javax.swing.*;
 import java.awt.*;

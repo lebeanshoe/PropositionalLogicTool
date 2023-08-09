@@ -1,8 +1,8 @@
 package model;
 
-import operations.BinaryOperation;
-import operations.Proposition;
-import operations.TruthTable;
+import model.operations.BinaryOperation;
+import model.operations.Proposition;
+import model.operations.TruthTable;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,8 +1,10 @@
 package model;
 
+import model.logging.Event;
+import model.logging.EventLog;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import persistence.Writable;
+import model.persistence.Writable;
 
 import java.util.*;
 
@@ -26,6 +28,7 @@ public class Canvas implements Writable {
         pos.add(x);
         pos.add(y);
         this.hashQueries.put(query, pos);
+        query.logAddRemoveCanvas(this.name, "added to");
     }
 
     // REQUIRES: query is in queries
@@ -33,6 +36,7 @@ public class Canvas implements Writable {
     // EFFECTS: removes query and its corresponding coordinates
     public void removeQuery(Query query) {
         this.hashQueries.remove(query);
+        query.logAddRemoveCanvas(this.name, "removed from");
     }
 
     public List<Query> getQueries() {
@@ -55,16 +59,31 @@ public class Canvas implements Writable {
     // EFFECTS: changes the X position of query to x
     public void setX(Query query, int x) {
         this.hashQueries.get(query).set(0, x);
+        logPositionUpdate("X", query);
     }
 
     // MODIFIES: this
     // EFFECTS: changes the Y position of query to y
     public void setY(Query query, int y) {
         this.hashQueries.get(query).set(1, y);
+        logPositionUpdate("Y", query);
     }
 
     public String getName() {
         return this.name;
+    }
+
+    // REQUIRES: axis is either "X" or "Y"
+    // EFFECTS: logs position change in EventLog
+    private void logPositionUpdate(String axis, Query query) {
+        int newPos = -1;
+        if (axis == "X") {
+            newPos = getX(query);
+        } else if (axis == "Y") {
+            newPos = getY(query);
+        }
+        EventLog.getInstance().logEvent(new Event(axis + " position of \""
+                + query.getType() + "\" updated to " + newPos + "."));
     }
 
     // EFFECTS: writes canvas to json file

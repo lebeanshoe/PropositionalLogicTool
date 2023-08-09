@@ -1,8 +1,7 @@
 package model;
 
-import exceptions.InvalidStatementException;
-import operations.BinaryOperation;
-import operations.TruthTable;
+import model.operations.BinaryOperation;
+import model.operations.TruthTable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
