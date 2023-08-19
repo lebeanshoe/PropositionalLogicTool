@@ -99,6 +99,7 @@ public class QueryUI extends JInternalFrame implements ComponentListener {
     // EFFECTS: updates position of theQuery when the frame is moved
     @Override
     public void componentMoved(ComponentEvent e) {
+        // TODO: add timer cooldown so it doesn't spam log
         updateLocation();
     }
 
